@@ -1,8 +1,11 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const models = require('./models');
+const cards = require('./controllers/cards');
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use('/cards', cards);
 
 app.listen(8000);
