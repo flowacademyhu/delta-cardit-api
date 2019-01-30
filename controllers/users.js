@@ -21,7 +21,7 @@ users.get('/', (req, res) => {
   // CREATE
   users.post('/', (req, res) => {
     models.User.create({
-      firsName: req.body.firsName,
+      firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
       passwordHash: req.body.passwordHash,
@@ -29,7 +29,7 @@ users.get('/', (req, res) => {
       lastLogin: req.body.lastLogin
     })
       .then(user => {
-        res.json(users);
+        res.json(user);
       });
   });
 
