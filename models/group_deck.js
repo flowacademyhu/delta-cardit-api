@@ -1,8 +1,8 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Group_Deck = sequelize.define('Group_Deck', {
-    groupId: DataTypes.INTEGER,
-    deckId: DataTypes.INTEGER
+    GroupId: DataTypes.INTEGER,
+    DeckId: DataTypes.INTEGER
   }, {});
   Group_Deck.associate = function(models) {
     Group_Deck.belongsTo(models.Group);

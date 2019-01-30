@@ -26,7 +26,7 @@ module.exports = {
       lastLogin: {
         type: Sequelize.DATE
       },
-      groupId: {
+      GroupId: {
         type: Sequelize.INTEGER,
         references: { 
           model: "Groups",

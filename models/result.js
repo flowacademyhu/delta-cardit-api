@@ -1,8 +1,8 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Result = sequelize.define('Result', {
-    userId: DataTypes.INTEGER,
-    cardId: DataTypes.INTEGER,
+    UserId: DataTypes.INTEGER,
+    CardId: DataTypes.INTEGER,
     isCorrect: DataTypes.BOOLEAN
   }, {});
   Result.associate = function(models) {
