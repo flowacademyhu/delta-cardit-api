@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     isCorrect: DataTypes.BOOLEAN
   }, {});
   Result.associate = function(models) {
-    // associations can be defined here
+    Result.belongsTo(models.User);
+    Result.belongsTo(models.Card);
   };
   return Result;
 };

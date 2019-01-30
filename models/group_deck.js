@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     deckId: DataTypes.INTEGER
   }, {});
   Group_Deck.associate = function(models) {
-    // associations can be defined here
+    Group_Deck.belongsTo(models.Group);
+    Group_Deck.belongsTo(models.Deck);
   };
   return Group_Deck;
 };

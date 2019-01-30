@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     deckId: DataTypes.INTEGER
   }, {});
   Card_Deck.associate = function(models) {
-    // associations can be defined here
+    Card_Deck.belongsTo(models.Card);
+    Card_Deck.belongsTo(models.Deck);
   };
   return Card_Deck;
 };

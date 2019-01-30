@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     subject: DataTypes.STRING
   }, {});
   Deck.associate = function(models) {
-    // associations can be defined here
+    Deck.hasMany(models.Group_Deck);
+    Deck.hasMany(models.Card_Deck);
   };
   return Deck;
 };

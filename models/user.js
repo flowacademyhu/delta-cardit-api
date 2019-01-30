@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     groupId: DataTypes.INTEGER
   }, {});
   User.associate = function(models) {
-    // associations can be defined here
+    User.hasMany(models.Result);
+    User.belongsTo(models.Group);
   };
   return User;
 };
