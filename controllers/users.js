@@ -28,8 +28,8 @@ users.get('/', (req, res) => {
       role: req.body.role,
       lastLogin: req.body.lastLogin
     })
-      .then(users => {
-        res.json(users);
+      .then(user => {
+        res.json(user);
       });
   });
 
