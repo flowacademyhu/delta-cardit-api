@@ -1,9 +1,18 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Result = sequelize.define('Result', {
-    UserId: DataTypes.INTEGER,
-    CardId: DataTypes.INTEGER,
-    isCorrect: DataTypes.BOOLEAN
+    UserId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    CardId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    isCorrect: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
   }, {});
   Result.associate = function(models) {
     Result.belongsTo(models.User);

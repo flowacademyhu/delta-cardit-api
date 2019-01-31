@@ -1,10 +1,22 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Card = sequelize.define('Card', {
-    question: DataTypes.STRING,
-    answer: DataTypes.STRING,
-    difficulty: DataTypes.INTEGER,
-    type: DataTypes.STRING
+    question: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    answer: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    difficulty: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
   }, {});
   Card.associate = function(models) {
     Card.hasMany(models.Result);

@@ -6,7 +6,10 @@ const models = require('../models');
 decks.get('/', (req, res) => {
     models.Deck.findAll()
       .then(decks => {
-        res.json(decks);
+        res.json(decks)
+        .catch(function (err) {
+          return res.status(400).json({ message: "Failed to show decks" });
+        });
       });
   });
 
@@ -14,7 +17,10 @@ decks.get('/', (req, res) => {
   decks.get('/:id', (req, res) => {
       models.Deck.findById(req.params.id)
       .then(decks => {
-        res.json(decks);
+        res.json(decks)
+        .catch(function (err) {
+          return res.status(400).json({ message: "Failed to show deck" });
+        });
       });
   })
   
@@ -24,7 +30,10 @@ decks.get('/', (req, res) => {
       subject: req.body.subject
     })
       .then(deck => {
-        res.json(deck);
+        res.json(deck)
+        .catch(function (err) {
+          return res.status(400).json({ message: "Failed to create deck" });
+        });
       });
   });
 
@@ -34,7 +43,10 @@ decks.put('/:id', (req, res) => {
       {where: {id: req.params.id}
       })
       .then(deck => {
-        res.json(deck);
+        res.json(deck)
+        .catch(function (err) {
+          return res.status(400).json({ message: "Failed to update deck" });
+        });
       });
   });
 
@@ -47,7 +59,10 @@ decks.delete('/:id', (req, res) => {
             id: req.params.id}
         })
           .then(decks => {
-            res.json(decks);
+            res.json(decks)
+            .catch(function (err) {
+              return res.status(400).json({ message: "Failed to delete deck" });
+            });
           });
       });
   });
