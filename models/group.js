@@ -1,9 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Group = sequelize.define('Group', {
-    name: DataTypes.STRING
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
   }, {});
-  Group.associate = function(models) {
+  Group.associate = function (models) {
     Group.hasMany(models.User);
     Group.hasMany(models.Group_Deck);
   };
