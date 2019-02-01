@@ -4,8 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
-    }
+      validate: { min: 3, max: 500 }
+    },
   }, {});
   Group.associate = function (models) {
     Group.hasMany(models.User);

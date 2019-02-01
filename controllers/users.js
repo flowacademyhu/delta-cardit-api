@@ -6,7 +6,10 @@ const models = require('../models');
 users.get('/', (req, res) => {
     models.User.findAll()
       .then(users => {
-        res.json(users);
+        res.json(users)
+        .catch(function (err) {
+          return res.status(400).json({ message: "Failed to show users" });
+        });
       });
   });
 
@@ -14,9 +17,12 @@ users.get('/', (req, res) => {
   users.get('/:id', (req, res) => {
       models.User.findById(req.params.id)
       .then(users => {
-        res.json(users);
+        res.json(users)
+        .catch(function (err) {
+          return res.status(400).json({ message: "Failed to show user" });
+        });
       });
-  })
+  });
   
   // CREATE
   users.post('/', (req, res) => {
@@ -29,7 +35,10 @@ users.get('/', (req, res) => {
       lastLogin: req.body.lastLogin
     })
       .then(user => {
-        res.json(user);
+        res.json(user)
+        .catch(function (err) {
+          return res.status(400).json({ message: "Failed to create user" });
+        });
       });
   });
 
@@ -39,7 +48,10 @@ users.put('/:id', (req, res) => {
       {where: {id: req.params.id}
       })
       .then(user => {
-        res.json(user);
+        res.json(user)
+        .catch(function (err) {
+          return res.status(400).json({ message: "Failed to update user" });
+        });
       });
   });
 
@@ -52,7 +64,10 @@ users.delete('/:id', (req, res) => {
             id: req.params.id}
         })
           .then(users => {
-            res.json(users);
+            res.json(users)
+            .catch(function (err) {
+              return res.status(400).json({ message: "Failed to delete user" });
+            });
           });
       });
   });
