@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      notEmpty: true,
       validate: { min: 3, max: 500 }
     },
   }, {});

@@ -4,21 +4,25 @@ module.exports = (sequelize, DataTypes) => {
     question: {
       type: DataTypes.STRING,
       allowNull: false,
+      notEmpty: true,
       validate: { min: 3, max: 500 }
     },
     answer: {
       type: DataTypes.STRING,
       allowNull: false,
+      notEmpty: true,
       validate: { min: 3, max: 500 }
     },
     difficulty: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      notEmpty: true,
       validate: { min: 1, max: 3 }
     },
     type: {
       type: DataTypes.STRING,
       allowNull: false,
+      notEmpty: true,
       validate: { min: 3, max: 500 }
     },
   }, {});
