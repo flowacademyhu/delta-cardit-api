@@ -13,5 +13,6 @@ app.use('/cards', cards);
 app.use('/users', users);
 app.use('/decks', decks);
 app.use('/groups', groups);
+app.use('/results', results);
 
 app.listen(8000);

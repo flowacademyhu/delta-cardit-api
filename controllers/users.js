@@ -23,7 +23,7 @@ users.get('/', (req, res) => {
         });
       });
   });
-  
+
   // CREATE
   users.post('/', (req, res) => {
     models.User.create({
