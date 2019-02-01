@@ -5,6 +5,7 @@ const cards = require('./controllers/cards');
 const users = require('./controllers/users');
 const decks = require('./controllers/decks');
 const groups = require('./controllers/groups');
+const results = require('./controllers/results');
 const createMiddleware = require('swagger-express-middleware');
 const swaggerUi = require('swagger-ui-express');
 const swaggerFilePath = './config/swagger.json';

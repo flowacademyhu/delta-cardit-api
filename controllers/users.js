@@ -24,14 +24,8 @@ users.get('/', (req, res) => {
         }).catch(err => {
             return res.status(400).json({ message: err.message });
         });
-<<<<<<< HEAD
-      });
-  });
-
-=======
 });
   
->>>>>>> 572b7ded0b13d47df018e93903a55c98fba348d8
   // CREATE
   users.post('/', (req, res) => {
     models.User.create({
