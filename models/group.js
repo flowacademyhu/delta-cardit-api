@@ -4,11 +4,11 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: null,
+      notEmpty: true,
       validate: { min: 3, max: 500 }
     },
   }, {});
-  Group.associate = function(models) {
+  Group.associate = function (models) {
     Group.hasMany(models.User);
     Group.hasMany(models.Group_Deck);
   };

@@ -11,9 +11,15 @@ cards.get('/', (req, res) => {
 
 // show
 cards.get('/:id', (req, res) => {
-    models.Card.findById(req.params.id).then(card => {
-        res.json(card);
-    });
+    models.Card.findById(req.params.id)
+        .then(card => {
+            if (!card) {
+                throw new Error('Card with given id does not exist')
+            }
+            return res.json(card);
+        }).catch(err => {
+            return res.status(400).json({ message: err.message });
+        });
 });
 
 // create
@@ -24,21 +30,45 @@ cards.post('/', (req, res) => {
         difficulty: req.body.difficulty,
         type: req.body.type
     }).then(card => {
-        res.json(card);
+        return res.json(card)
+    }).catch(err => {
+        return res.status(400)
+            .json({ message: 'Failed to create card' });
     });
+
 });
 
 // update
 cards.put('/:id', (req, res) => {
-    models.Card.update(req.body, { where: { id: req.params.id } }).then(card => {
-        res.json(card);
-    });
+    const params = {
+        question: req.body.question,
+        answer: req.body.answer,
+        difficulty: req.body.difficulty,
+        type: req.body.type
+    }
+    models.Card.update(params, { where: { id: req.params.id } })
+        .then(card => {
+            if (card == 0) {
+                throw new Error('Card with given id does not exist');
+            }
+            return res.json(card);
+        }).catch(err => {
+            return res.status(400)
+                .json({ message: err.message });
+        });
 });
 
 // delete
 cards.delete('/:id', (req, res) => {
-    models.Card.destroy({ where: { id: req.params.id } }).then(cards => {
-        res.json(cards);
+    models.Card.destroy({
+        where: { id: req.params.id }
+    }).then(card => {
+        if (!card) {
+            throw new Error('Card with given id does not exist');
+        }
+        return res.json(card);
+    }).catch(err => {
+        return res.status(400).json({ message: err.message });
     });
 });
 

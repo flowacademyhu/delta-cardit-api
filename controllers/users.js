@@ -14,16 +14,24 @@ users.get('/', (req, res) => {
   });
 
   // SHOW
-  users.get('/:id', (req, res) => {
-      models.User.findById(req.params.id)
-      .then(users => {
-        res.json(users)
-        .catch(function (err) {
-          return res.status(400).json({ message: "Failed to show user" });
+    users.get('/:id', (req, res) => {
+    models.User.findById(req.params.id)
+        .then(user => {
+            if (!user) {
+                throw new Error('User with given id does not exist')
+            }
+            return res.json(user);
+        }).catch(err => {
+            return res.status(400).json({ message: err.message });
         });
+<<<<<<< HEAD
       });
   });
 
+=======
+});
+  
+>>>>>>> 572b7ded0b13d47df018e93903a55c98fba348d8
   // CREATE
   users.post('/', (req, res) => {
     models.User.create({
@@ -33,43 +41,48 @@ users.get('/', (req, res) => {
       passwordHash: req.body.passwordHash,
       role: req.body.role,
       lastLogin: req.body.lastLogin
-    })
-      .then(user => {
-        res.json(user)
-        .catch(function (err) {
-          return res.status(400).json({ message: "Failed to create user" });
-        });
-      });
-  });
+    }).then(user => {
+        return res.json(user)
+    }).catch(err => {
+        return res.status(400)
+            .json({ message: 'Failed to create user' });
+    });
+
+});
 
   // UPDATE
 users.put('/:id', (req, res) => {
-    models.User.update(req.body,
+  const params = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    passwordHash: req.body.passwordHash,
+    role: req.body.role,
+    lastLogin: req.body.lastLogin
+  };
+
+    models.User.update(params,
       {where: {id: req.params.id}
       })
       .then(user => {
-        res.json(user)
-        .catch(function (err) {
-          return res.status(400).json({ message: "Failed to update user" });
-        });
+        res.json(user)        
+        }).catch(err => {
+          return res.status(400).json({ message: "Failed to update user" });;
       });
   });
 
   // DELETE
-users.delete('/:id', (req, res) => {
-    models.User.findById(req.params.id)
-      .then(user => {
-        models.User.destroy({
-          where: {
-            id: req.params.id}
-        })
-          .then(users => {
-            res.json(users)
-            .catch(function (err) {
-              return res.status(400).json({ message: "Failed to delete user" });
-            });
-          });
-      });
-  });
+  users.delete('/:id', (req, res) => {
+    models.User.destroy({
+        where: { id: req.params.id }
+    }).then(user => {
+        if (!user) {
+            throw new Error('User with given id does not exist');
+        }
+        return res.json(user);
+    }).catch(err => {
+        return res.status(400).json({ message: err.message });
+    });
+});
 
   module.exports = users;

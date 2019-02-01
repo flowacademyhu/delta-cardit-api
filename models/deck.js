@@ -5,8 +5,8 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.STRING,
       allowNull: false,
       defaultValue: null,
-      validate: { min: 3, max: 500 },
-      notEmpty: true
+      notEmpty: true,
+      validate: { min: 3, max: 500, notEmpty: true },
     },
   }, {});
   Deck.associate = function(models) {
