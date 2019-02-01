@@ -1,0 +1,97 @@
+{
+    "swagger": "2.0",
+    "host": "localhost:8000",
+    "schemes": [
+        "http"
+    ],
+    "info": {
+        "title": "FLOW CARDIT API",
+        "version": "1.0"
+    },
+    "paths": {
+        "/users": {
+            "get": {
+                "parameters": {
+                    "schema": {
+                        "firstName": {
+                            "type": "string",
+                            "allowNull": false,
+                            "notEmpty": true,
+                            "validate": {
+                                "min": 3,
+                                "max": 500,
+                                "isAlpha": true,
+                                "notEmpty": true
+                            }
+                        },
+                        "lastName": {
+                            "type": "string",
+                            "allowNull": false,
+                            "notEmpty": true,
+                            "validate": {
+                                "min": 3,
+                                "max": 500,
+                                "isAlpha": true,
+                                "notEmpty": true
+                            }
+                        },
+                        "email": {
+                            "type": "string",
+                            "allowNull": false,
+                            "notEmpty": true,
+                            "defaultValue": null,
+                            "validate": {
+                                "min": 3,
+                                "max": 500,
+                                "isEmail": true,
+                                "notEmpty": true
+                            }
+                        },
+                        "passwordHash": {
+                            "type": "string",
+                            "allowNull": false,
+                            "notEmpty": true,
+                            "defaultValue": null,
+                            "validate": {
+                                "min": 3,
+                                "max": 500,
+                                "notEmpty": true
+                            },
+                            "role": {
+                                "type": "string",
+                                "allowNull": false,
+                                "notEmpty": true,
+                                "defaultValue": null,
+                                "validate": {
+                                    "min": 3,
+                                    "max": 500,
+                                    "notEmpty": true
+                                },
+                                "lastLogin": {
+                                    "type": "date",
+                                    "isDate": true
+                                },
+                                "GroupId": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "/users/{id}": {},
+                    "/users/{userId}/results": {},
+                    "/cards": {},
+                    "/cards/{id}": {},
+                    "/cards/{cardId}/results": {},
+                    "/groups": {},
+                    "/groups/{id}": {},
+                    "/groups/{groupId}/users": {},
+                    "/decks": {},
+                    "/decks/{id}": {},
+                    "/decks/{deckId}/cards": {},
+                    "/decks/{deckId}/groups": {}
+                },
+                "definitions": {}
+            }
+        }
+    }
+}
