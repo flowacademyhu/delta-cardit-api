@@ -23,11 +23,6 @@ users.get('/', (req, res) => {
         });
       });
   });
-
-  // SHOW RESULTS BY USERID
-  users.get('/:userId/results', (req, res) => {
-
-  });
   
   // CREATE
   users.post('/', (req, res) => {
