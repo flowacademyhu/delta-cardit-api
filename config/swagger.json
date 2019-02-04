@@ -11,86 +11,144 @@
     "paths": {
         "/users": {
             "get": {
-                "parameters": {
-                    "schema": {
-                        "firstName": {
-                            "type": "string",
-                            "allowNull": false,
-                            "notEmpty": true,
-                            "validate": {
-                                "min": 3,
-                                "max": 500,
-                                "isAlpha": true,
-                                "notEmpty": true
-                            }
-                        },
-                        "lastName": {
-                            "type": "string",
-                            "allowNull": false,
-                            "notEmpty": true,
-                            "validate": {
-                                "min": 3,
-                                "max": 500,
-                                "isAlpha": true,
-                                "notEmpty": true
-                            }
-                        },
-                        "email": {
-                            "type": "string",
-                            "allowNull": false,
-                            "notEmpty": true,
-                            "defaultValue": null,
-                            "validate": {
-                                "min": 3,
-                                "max": 500,
-                                "isEmail": true,
-                                "notEmpty": true
-                            }
-                        },
-                        "passwordHash": {
-                            "type": "string",
-                            "allowNull": false,
-                            "notEmpty": true,
-                            "defaultValue": null,
-                            "validate": {
-                                "min": 3,
-                                "max": 500,
-                                "notEmpty": true
-                            },
-                            "role": {
-                                "type": "string",
-                                "allowNull": false,
-                                "notEmpty": true,
-                                "defaultValue": null,
-                                "validate": {
-                                    "min": 3,
-                                    "max": 500,
-                                    "notEmpty": true
-                                },
-                                "lastLogin": {
-                                    "type": "date",
-                                    "isDate": true
-                                },
-                                "GroupId": {
-                                    "type": "integer"
-                                }
-                            }
+                "responses": {
+                    "200": {
+                        "description": "Returns a list of all users",
+                        "schema": {
+                            "$ref": "#/definitions/Users"
                         }
                     },
-                    "/users/{id}": {},
-                    "/users/{userId}/results": {},
-                    "/cards": {},
-                    "/cards/{id}": {},
-                    "/cards/{cardId}/results": {},
-                    "/groups": {},
-                    "/groups/{id}": {},
-                    "/groups/{groupId}/users": {},
-                    "/decks": {},
-                    "/decks/{id}": {},
-                    "/decks/{deckId}/cards": {},
-                    "/decks/{deckId}/groups": {}
+                    "400": {
+                        "description": "Failed to show users"
+                    }
+                }
+            },
+            "post": {
+                "parameters": [{
+                    "name": "user",
+                    "in": "body",
+                    "schema": {
+                        "$ref": "#/definitions/User"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "New user created",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to create user"
+                    }
+                }
+            },
+            "put": {
+                "parameters": [{
+                    "name": "user",
+                    "in": "body",
+                    "schema": {
+                        "$ref": "#/definitions/User"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "User updated",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to update user"
+                    }
+                }
+            }
+        },
+        "/users/{id}": {},
+        "/users/{userId}/results": {},
+        "/cards": {},
+        "/cards/{id}": {},
+        "/cards/{cardId}/results": {},
+        "/groups": {},
+        "/groups/{id}": {},
+        "/groups/{groupId}/users": {},
+        "/decks": {},
+        "/decks/{id}": {},
+        "/decks/{deckId}/cards": {},
+        "/decks/{deckId}/groups": {}
+    },
+    "definitions": {
+        "User": {
+            "properties": {
+                "firstName": {
+                    "type": "string",
+                    "allowNull": false,
+                    "notEmpty": true,
+                    "validate": {
+                        "min": 3,
+                        "max": 500,
+                        "isAlpha": true,
+                        "notEmpty": true
+                    }
                 },
-                "definitions": {}
+                "lastName": {
+                    "type": "string",
+                    "allowNull": false,
+                    "notEmpty": true,
+                    "validate": {
+                        "min": 3,
+                        "max": 500,
+                        "isAlpha": true,
+                        "notEmpty": true
+                    }
+                },
+                "email": {
+                    "type": "string",
+                    "allowNull": false,
+                    "notEmpty": true,
+                    "defaultValue": null,
+                    "validate": {
+                        "min": 3,
+                        "max": 500,
+                        "isEmail": true,
+                        "notEmpty": true
+                    }
+                },
+                "passwordHash": {
+                    "type": "string",
+                    "allowNull": false,
+                    "notEmpty": true,
+                    "defaultValue": null,
+                    "validate": {
+                        "min": 3,
+                        "max": 500,
+                        "notEmpty": true
+                    }
+                },
+                "role": {
+                    "type": "string",
+                    "allowNull": false,
+                    "notEmpty": true,
+                    "defaultValue": null,
+                    "validate": {
+                        "min": 3,
+                        "max": 500,
+                        "notEmpty": true
+                    }
+                },
+                "lastLogin": {
+                    "type": "date",
+                    "isDate": true
+                },
+                "GroupId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "Users": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/User"
             }
         }
     }
