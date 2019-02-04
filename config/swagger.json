@@ -425,6 +425,48 @@
             "items": {
                 "$ref": "#/definitions/Deck"
             }
+        },
+        "Group": {
+            "name": {
+                "type": "string",
+                "allowNull": false,
+                "notEmpty": true,
+                "validate": {
+                    "min": 3,
+                    "max": 500
+                }
+            }
+        },
+        "Groups": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Group"
+            }
+        },
+        "Result": {
+            "properties": {
+                "UserId": {
+                    "type": "string",
+                    "allowNull": false,
+                    "notEmpty": true
+                },
+                "CardId": {
+                    "type": "integer",
+                    "allowNull": false,
+                    "notEmpty": true
+                },
+                "isCorrect": {
+                    "type": "boolean",
+                    "allowNull": false,
+                    "notEmpty": true
+                }
+            }
+        },
+        "Results": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Result"
+            }
         }
     }
 }
