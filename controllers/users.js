@@ -61,7 +61,7 @@ users.put('/:id', (req, res) => {
         .then(user => {
             res.json(user)
         }).catch(err => {
-            return res.status(400).json({ message: "Failed to update user" });;
+            return res.status(400).json({ message: "Failed to update user" });
         });
 });
 

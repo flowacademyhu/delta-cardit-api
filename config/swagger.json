@@ -24,13 +24,15 @@
                 }
             },
             "post": {
-                "parameters": [{
-                    "name": "user",
-                    "in": "body",
-                    "schema": {
-                        "$ref": "#/definitions/User"
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
                     }
-                }],
+                ],
                 "responses": {
                     "200": {
                         "description": "New user created",
@@ -42,15 +44,44 @@
                         "description": "Failed to create user"
                     }
                 }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns user by id",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "User with given id does not exist"
+                    }
+                }
             },
             "put": {
-                "parameters": [{
-                    "name": "user",
-                    "in": "body",
-                    "schema": {
-                        "$ref": "#/definitions/User"
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": "true"
                     }
-                }],
+                ],
                 "responses": {
                     "200": {
                         "description": "User updated",
@@ -62,9 +93,35 @@
                         "description": "Failed to update user"
                     }
                 }
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": "true"
+                    }, 
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User deleted",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "User with given id does not exist."
+                    }
+                }
             }
         },
-        "/users/{id}": {},
         "/users/{userId}/results": {},
         "/cards": {},
         "/cards/{id}": {},
