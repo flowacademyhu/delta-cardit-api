@@ -122,17 +122,168 @@
                 }
             }
         },
-        "/users/{userId}/results": {},
-        "/cards": {},
-        "/cards/{id}": {},
-        "/cards/{cardId}/results": {},
-        "/groups": {},
-        "/groups/{id}": {},
-        "/groups/{groupId}/users": {},
-        "/decks": {},
-        "/decks/{id}": {},
-        "/decks/{deckId}/cards": {},
-        "/decks/{deckId}/groups": {}
+        "/users/{userId}/results": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/cards": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/cards/{id}": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "put": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/cards/{cardId}/results": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/groups": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/groups/{id}": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "put": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/groups/{groupId}/users": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/decks": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/decks/{id}": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "put": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/decks/{deckId}/cards": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/decks/{deckId}/groups": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        }
     },
     "definitions": {
         "User": {
