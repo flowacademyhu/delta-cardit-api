@@ -5,40 +5,41 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
-      validate: { min: 3, max: 500,
-      isAlpha: true, notEmpty: true },
+      validate: { len: [3,500],
+      isAlpha: true },
     },
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
-      validate: { min: 3, max: 500, isAlpha: true, notEmpty: true},      
+      validate: { "len": [3,500], isAlpha: true},      
     },
     email: {
       type:DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
       defaultValue: null,
-      validate: { min: 3, max: 500, isEmail: true, notEmpty: true },    
+      validate: { "len": [3,500], isEmail: true },    
     },
     passwordHash: {
       type:DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
       defaultValue: null,
-      validate: { min: 3, max: 500, notEmpty: true },
+      validate: { "len": [3,500] },
     },
     role: {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
       defaultValue: null,
-      validate: { min: 3, max: 500, notEmpty: true },
+      validate: { "len": [3,500] },
      
     },
     lastLogin: {
       type: DataTypes.DATE,
-      isDate: true
+      isDate: true,
+      defaultValue: new Date()
     },
     GroupId: DataTypes.INTEGER
   }, {});

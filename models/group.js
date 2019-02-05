@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
-      validate: { min: 3, max: 500 }
+      validate: { "len": [3,500] }
     },
   }, {});
   Group.associate = function (models) {

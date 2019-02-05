@@ -5,13 +5,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
-      validate: { min: 3, max: 500 }
+      validate: {"len": [3,500] }
     },
     answer: {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
-      validate: { min: 3, max: 500 }
+      validate: { "len": [3,500] }
     },
     difficulty: {
       type: DataTypes.INTEGER,
@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
-      validate: { min: 3, max: 500 }
+      validate: { "len": [3,500] }
     },
   }, {});
   Card.associate = function(models) {

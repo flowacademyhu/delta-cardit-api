@@ -6,14 +6,11 @@ const users = require('./controllers/users');
 const decks = require('./controllers/decks');
 const groups = require('./controllers/groups');
 const results = require('./controllers/results');
-<<<<<<< HEAD
 const deckGroups = require('./controllers/deckGroups');
 const cardResults = require('./controllers/cardResults');
 const deckCards = require('./controllers/deckCards');
 const groupUsers = require('./controllers/groupUsers');
 const resultUsers = require('./controllers/resultUsers');
-=======
->>>>>>> e0f032ac7695418c6b8b887573613671a162d89d
 const createMiddleware = require('swagger-express-middleware');
 const swaggerUi = require('swagger-ui-express');
 const swaggerFilePath = './config/swagger.json';
@@ -40,8 +37,10 @@ createMiddleware(swaggerFilePath, app, (err, middleware) => {
         middleware.CORS(),
         middleware.files(),
         middleware.parseRequest(),
-       // middleware.validateRequest()
+        middleware.validateRequest()
     );
 });
 
-app.listen(8080);
+app.listen(process.env.PORT, () => {
+    console.log(`Running on port ${process.env.PORT}...`)
+  });

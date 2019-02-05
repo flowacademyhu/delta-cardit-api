@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: null,
       notEmpty: true,
-      validate: { min: 3, max: 500, notEmpty: true },
+      validate: { "len": [3,500] },
     },
   }, {});
   Deck.associate = function(models) {

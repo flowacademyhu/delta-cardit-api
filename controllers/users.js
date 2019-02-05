@@ -34,7 +34,6 @@ users.post('/', (req, res) => {
         email: req.body.email,
         passwordHash: req.body.passwordHash,
         role: req.body.role,
-        lastLogin: req.body.lastLogin,
         GroupId: req.body.GroupId
     }).then(user => {
         return res.json(user);

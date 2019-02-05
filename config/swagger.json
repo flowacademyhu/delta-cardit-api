@@ -64,10 +64,10 @@
             "put": {
                 "parameters": [
                     {
-                        "$ref": "#/parameters/userData"
+                        "$ref": "#/parameters/id"
                     },
                     {
-                        "$ref": "#/parameters/id"
+                        "$ref": "#/parameters/userData"
                     }
                 ],
                 "responses": {
@@ -325,8 +325,7 @@
                     "allowNull": false,
                     "notEmpty": true,
                     "validate": {
-                        "min": 3,
-                        "max": 500,
+                        "len": [3,500],
                         "isAlpha": true,
                         "notEmpty": true
                     }
@@ -336,8 +335,7 @@
                     "allowNull": false,
                     "notEmpty": true,
                     "validate": {
-                        "min": 3,
-                        "max": 500,
+                        "len": [3,500],
                         "isAlpha": true,
                         "notEmpty": true
                     }
@@ -348,8 +346,7 @@
                     "notEmpty": true,
                     "defaultValue": null,
                     "validate": {
-                        "min": 3,
-                        "max": 500,
+                        "len": [3,500],
                         "isEmail": true,
                         "notEmpty": true
                     }
@@ -360,8 +357,7 @@
                     "notEmpty": true,
                     "defaultValue": null,
                     "validate": {
-                        "min": 3,
-                        "max": 500,
+                        "len": [3,500],
                         "notEmpty": true
                     }
                 },
@@ -371,14 +367,14 @@
                     "notEmpty": true,
                     "defaultValue": null,
                     "validate": {
-                        "min": 3,
-                        "max": 500,
+                        "len": [3,500],
                         "notEmpty": true
                     }
                 },
                 "lastLogin": {
                     "type": "date",
-                    "isDate": true
+                    "isDate": true,
+                    "defaultValue": "new Date()"
                 },
                 "GroupId": {
                     "type": "integer"
@@ -398,8 +394,7 @@
                     "allowNull": false,
                     "notEmpty": true,
                     "validate": {
-                        "min": 3,
-                        "max": 500
+                        "len": [3,500]
                     }
                 },
                 "answer": {
@@ -407,8 +402,7 @@
                     "allowNull": false,
                     "notEmpty": true,
                     "validate": {
-                        "min": 3,
-                        "max": 500
+                        "len": [3,500]
                     }
                 },
                 "difficulty": {
@@ -425,8 +419,7 @@
                     "allowNull": false,
                     "notEmpty": true,
                     "validate": {
-                        "min": 3,
-                        "max": 500
+                        "len": [3,500]
                     }
                 }
             }
@@ -445,8 +438,7 @@
                     "defaultValue": null,
                     "notEmpty": true,
                     "validate": {
-                        "min": 3,
-                        "max": 500,
+                        "len": [3,500],
                         "notEmpty": true
                     }
                 }
@@ -465,8 +457,7 @@
                     "allowNull": false,
                     "notEmpty": true,
                     "validate": {
-                        "min": 3,
-                        "max": 500
+                        "len": [3,500]
                     }
                 }
             }
