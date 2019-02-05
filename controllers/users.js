@@ -1,6 +1,5 @@
 const express = require('express');
 const users = express();
-const results = express();
 const models = require('../models');
 
 // INDEX
@@ -34,10 +33,14 @@ users.post('/', (req, res) => {
         email: req.body.email,
         passwordHash: req.body.passwordHash,
         role: req.body.role,
-        GroupId: req.body.GroupId
+        lastLogin: req.body.lastLogin
     }).then(user => {
-        return res.json(user);
+        return res.json(user)
+    }).catch(err => {
+        return res.status(400)
+            .json({ message: 'Failed to create user' });
     });
+
 });
 
 // UPDATE

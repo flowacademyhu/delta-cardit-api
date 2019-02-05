@@ -1,17 +1,14 @@
 const express = require('express');
 const decks = express();
-const cards = express();
-const groups = express();
 const models = require('../models');
 
 // INDEX
 decks.get('/', (req, res) => {
   models.Deck.findAll()
     .then(decks => {
-      res.json(decks)
-        .catch(function (err) {
-          return res.status(400).json({ message: "Failed to show decks" });
-        });
+      res.json(decks)        
+    }).catch(function (err) {
+      return res.status(400).json({ message: "Failed to show decks" });
     });
 });
 
