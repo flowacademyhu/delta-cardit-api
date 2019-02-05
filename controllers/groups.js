@@ -1,5 +1,5 @@
 const express = require('express');
-const groups = express();
+const groups = express.Router();
 const models = require('../models');
 
 // index

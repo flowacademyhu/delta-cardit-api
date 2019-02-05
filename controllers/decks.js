@@ -1,5 +1,7 @@
 const express = require('express');
 const decks = express();
+const cards = express();
+const groups = express();
 const models = require('../models');
 
 // INDEX

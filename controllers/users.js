@@ -1,5 +1,6 @@
 const express = require('express');
 const users = express();
+const results = express();
 const models = require('../models');
 
 // INDEX
@@ -24,14 +25,8 @@ users.get('/', (req, res) => {
         }).catch(err => {
             return res.status(400).json({ message: err.message });
         });
-<<<<<<< HEAD
-      });
-  });
-
-=======
 });
-  
->>>>>>> 572b7ded0b13d47df018e93903a55c98fba348d8
+
   // CREATE
   users.post('/', (req, res) => {
     models.User.create({
@@ -40,14 +35,11 @@ users.get('/', (req, res) => {
       email: req.body.email,
       passwordHash: req.body.passwordHash,
       role: req.body.role,
-      lastLogin: req.body.lastLogin
+      lastLogin: req.body.lastLogin,
+      GroupId: req.body.GroupId
     }).then(user => {
-        return res.json(user)
-    }).catch(err => {
-        return res.status(400)
-            .json({ message: 'Failed to create user' });
+        return res.json(user);
     });
-
 });
 
   // UPDATE

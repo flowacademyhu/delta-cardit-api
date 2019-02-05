@@ -1,5 +1,6 @@
 const express = require('express');
 const cards = express();
+const results = express();
 const models = require('../models');
 
 // index

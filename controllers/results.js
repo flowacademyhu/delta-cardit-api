@@ -17,11 +17,13 @@ results.get('/', (req, res) => {
         res.json(results);
       });
   });
-  
+
   // CREATE
   results.post('/', (req, res) => {
     models.Result.create({
-      isCorrect: req.body.isCorrect
+      isCorrect: req.body.isCorrect,
+      CardId: req.body.cardId,
+      UserId: req.body.userId
     })
       .then(result => {
         res.json(result);
