@@ -8,9 +8,8 @@ users.get('/', (req, res) => {
     models.User.findAll()
         .then(users => {
             res.json(users)
-                .catch(function (err) {
-                    return res.status(400).json({ message: "Failed to show users" });
-                });
+        }).catch(function (err) {
+            return res.status(400).json({ message: "Failed to show users" });;
         });
 });
 
@@ -60,7 +59,7 @@ users.put('/:id', (req, res) => {
         .then(user => {
             res.json(user)
         }).catch(err => {
-            return res.status(400).json({ message: "Failed to update user" });;
+            return res.status(400).json({ message: "Failed to update user" });
         });
 });
 

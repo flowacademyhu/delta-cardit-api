@@ -11,86 +11,517 @@
     "paths": {
         "/users": {
             "get": {
-                "parameters": {
-                    "schema": {
-                        "firstName": {
-                            "type": "string",
-                            "allowNull": false,
-                            "notEmpty": true,
-                            "validate": {
-                                "min": 3,
-                                "max": 500,
-                                "isAlpha": true,
-                                "notEmpty": true
-                            }
-                        },
-                        "lastName": {
-                            "type": "string",
-                            "allowNull": false,
-                            "notEmpty": true,
-                            "validate": {
-                                "min": 3,
-                                "max": 500,
-                                "isAlpha": true,
-                                "notEmpty": true
-                            }
-                        },
-                        "email": {
-                            "type": "string",
-                            "allowNull": false,
-                            "notEmpty": true,
-                            "defaultValue": null,
-                            "validate": {
-                                "min": 3,
-                                "max": 500,
-                                "isEmail": true,
-                                "notEmpty": true
-                            }
-                        },
-                        "passwordHash": {
-                            "type": "string",
-                            "allowNull": false,
-                            "notEmpty": true,
-                            "defaultValue": null,
-                            "validate": {
-                                "min": 3,
-                                "max": 500,
-                                "notEmpty": true
-                            },
-                            "role": {
-                                "type": "string",
-                                "allowNull": false,
-                                "notEmpty": true,
-                                "defaultValue": null,
-                                "validate": {
-                                    "min": 3,
-                                    "max": 500,
-                                    "notEmpty": true
-                                },
-                                "lastLogin": {
-                                    "type": "date",
-                                    "isDate": true
-                                },
-                                "GroupId": {
-                                    "type": "integer"
-                                }
-                            }
+                "responses": {
+                    "200": {
+                        "description": "Returns a list of all users",
+                        "schema": {
+                            "$ref": "#/definitions/Users"
                         }
                     },
-                    "/users/{id}": {},
-                    "/users/{userId}/results": {},
-                    "/cards": {},
-                    "/cards/{id}": {},
-                    "/cards/{cardId}/results": {},
-                    "/groups": {},
-                    "/groups/{id}": {},
-                    "/groups/{groupId}/users": {},
-                    "/decks": {},
-                    "/decks/{id}": {},
-                    "/decks/{deckId}/cards": {},
-                    "/decks/{deckId}/groups": {}
+                    "400": {
+                        "description": "Failed to show users"
+                    }
+                }
+            },
+            "post": {
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/userData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "New user created",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to create user"
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns user by id",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "User with given id does not exist"
+                    }
+                }
+            },
+            "put": {
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/userData"
+                    },
+                    {
+                        "$ref": "#/parameters/id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User updated",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to update user"
+                    }
+                }
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/id"
+                    },
+                    {
+                        "$ref": "#/parameters/userData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User deleted",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "User with given id does not exist."
+                    }
+                }
+            }
+        },
+        "/users/{userId}/results": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Returns a list of results by userId."
+                    }
+                }
+            }
+        },
+        "/cards": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Returns a list of cards"
+                    }
+                }
+            },
+            "post": {
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/cardData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "New card created",
+                        "schema": {
+                            "$ref": "#/definitions/Card"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to create card"
+                    }
+                }
+            }
+        },
+        "/cards/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns card by id",
+                        "schema": {
+                            "$ref": "#/definitions/Card"
+                        }
+                    },
+                    "400": {
+                        "description": "Card with given id does not exist"
+                    }
+                }
+            },
+            "put": {
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/cardData"
+                    },
+                    {
+                        "$ref": "#/parameters/id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Card updated",
+                        "schema": {
+                            "$ref": "#/definitions/Card"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to update card"
+                    }
+                }
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/id"
+                    },
+                    {
+                        "$ref": "#/parameters/cardData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Card deleted",
+                        "schema": {
+                            "$ref": "#/definitions/Card"
+                        }
+                    },
+                    "400": {
+                        "description": "Card with given id does not exist."
+                    }
+                }
+            }
+        },
+        "/cards/{cardId}/results": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/groups": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/groups/{id}": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "put": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/groups/{groupId}/users": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/decks": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/decks/{id}": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "put": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/decks/{deckId}/cards": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/decks/{deckId}/groups": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "User": {
+            "properties": {
+                "firstName": {
+                    "type": "string",
+                    "allowNull": false,
+                    "notEmpty": true,
+                    "validate": {
+                        "min": 3,
+                        "max": 500,
+                        "isAlpha": true,
+                        "notEmpty": true
+                    }
                 },
-                "definitions": {}
+                "lastName": {
+                    "type": "string",
+                    "allowNull": false,
+                    "notEmpty": true,
+                    "validate": {
+                        "min": 3,
+                        "max": 500,
+                        "isAlpha": true,
+                        "notEmpty": true
+                    }
+                },
+                "email": {
+                    "type": "string",
+                    "allowNull": false,
+                    "notEmpty": true,
+                    "defaultValue": null,
+                    "validate": {
+                        "min": 3,
+                        "max": 500,
+                        "isEmail": true,
+                        "notEmpty": true
+                    }
+                },
+                "passwordHash": {
+                    "type": "string",
+                    "allowNull": false,
+                    "notEmpty": true,
+                    "defaultValue": null,
+                    "validate": {
+                        "min": 3,
+                        "max": 500,
+                        "notEmpty": true
+                    }
+                },
+                "role": {
+                    "type": "string",
+                    "allowNull": false,
+                    "notEmpty": true,
+                    "defaultValue": null,
+                    "validate": {
+                        "min": 3,
+                        "max": 500,
+                        "notEmpty": true
+                    }
+                },
+                "lastLogin": {
+                    "type": "date",
+                    "isDate": true
+                },
+                "GroupId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "Users": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/User"
+            }
+        },
+        "Card": {
+            "properties": {
+                "question": {
+                    "type": "string",
+                    "allowNull": false,
+                    "notEmpty": true,
+                    "validate": {
+                        "min": 3,
+                        "max": 500
+                    }
+                },
+                "answer": {
+                    "type": "string",
+                    "allowNull": false,
+                    "notEmpty": true,
+                    "validate": {
+                        "min": 3,
+                        "max": 500
+                    }
+                },
+                "difficulty": {
+                    "type": "integer",
+                    "allowNull": false,
+                    "notEmpty": true,
+                    "validate": {
+                        "min": 1,
+                        "max": 3
+                    }
+                },
+                "type": {
+                    "type": "string",
+                    "allowNull": false,
+                    "notEmpty": true,
+                    "validate": {
+                        "min": 3,
+                        "max": 500
+                    }
+                }
+            }
+        },
+        "Cards": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Card"
+            }
+        },
+        "Deck": {
+            "properties": {
+                "subject": {
+                    "type": "string",
+                    "allowNull": false,
+                    "defaultValue": null,
+                    "notEmpty": true,
+                    "validate": {
+                        "min": 3,
+                        "max": 500,
+                        "notEmpty": true
+                    }
+                }
+            }
+        },
+        "Decks": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Deck"
+            }
+        },
+        "Group": {
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "allowNull": false,
+                    "notEmpty": true,
+                    "validate": {
+                        "min": 3,
+                        "max": 500
+                    }
+                }
+            }
+        },
+        "Groups": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Group"
+            }
+        },
+        "Result": {
+            "properties": {
+                "UserId": {
+                    "type": "string",
+                    "allowNull": false,
+                    "notEmpty": true
+                },
+                "CardId": {
+                    "type": "integer",
+                    "allowNull": false,
+                    "notEmpty": true
+                },
+                "isCorrect": {
+                    "type": "boolean",
+                    "allowNull": false,
+                    "notEmpty": true
+                }
+            }
+        },
+        "Results": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Result"
+            }
+        }
+    },
+    "parameters": {
+        "id": {
+            "name": "id",
+            "in": "path",
+            "required": "true",
+            "type": "integer"
+        },
+        "userData": {
+            "name": "user",
+            "in": "body",
+            "schema": {
+                "$ref": "#/definitions/User"
+            }
+        },
+        "cardData": {
+            "name": "card",
+            "in": "body",
+            "schema": {
+                "$ref": "#/definitions/Card"
             }
         }
     }
