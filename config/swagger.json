@@ -42,6 +42,32 @@
                 }
             }
         },
+        "/users/login": {
+            "post": {
+                "description": "Logs in user",
+                "parameters": [
+                    {
+                        "email": {
+                            "name": "email",
+                            "in": "body",
+                            "required": "true",
+                            "type": "string"
+                        }
+                    }                    
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Logs in user",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "401": {
+                        "description": "Auth failed"
+                    }
+                }
+            }
+        },
         "/users/{id}": {
             "get": {
                 "parameters": [
@@ -411,8 +437,7 @@
                             3,
                             500
                         ],
-                        "isAlpha": true,
-                        "notEmpty": true
+                        "isAlpha": true
                     }
                 },
                 "lastName": {
@@ -424,8 +449,7 @@
                             3,
                             500
                         ],
-                        "isAlpha": true,
-                        "notEmpty": true
+                        "isAlpha": true
                     }
                 },
                 "email": {
@@ -438,8 +462,7 @@
                             3,
                             500
                         ],
-                        "isEmail": true,
-                        "notEmpty": true
+                        "isEmail": true
                     }
                 },
                 "passwordHash": {
@@ -451,8 +474,7 @@
                         "len": [
                             3,
                             500
-                        ],
-                        "notEmpty": true
+                        ]
                     }
                 },
                 "role": {
@@ -464,8 +486,7 @@
                         "len": [
                             3,
                             500
-                        ],
-                        "notEmpty": true
+                        ]
                     }
                 },
                 "lastLogin": {

@@ -5,36 +5,45 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
-      validate: { len: [3,500],
-      isAlpha: true },
+      validate: {
+        len: [3, 500],
+        isAlpha: true
+      }
     },
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
-      validate: { "len": [3,500], isAlpha: true},      
+      validate: {
+        "len": [3, 500],
+        isAlpha: true
+      },
     },
     email: {
-      type:DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
       defaultValue: null,
-      validate: { "len": [3,500], isEmail: true },    
+      unique: true,
+      validate: {
+        "len": [3, 500],
+        isEmail: true
+      }
     },
     passwordHash: {
-      type:DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
       defaultValue: null,
-      validate: { "len": [3,500] },
+      validate: { "len": [3, 500] }
     },
     role: {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
       defaultValue: null,
-      validate: { "len": [3,500] },
-     
+      validate: { "len": [3, 500] },
+
     },
     lastLogin: {
       type: DataTypes.DATE,
@@ -43,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     GroupId: DataTypes.INTEGER
   }, {});
-  User.associate = function(models) {
+  User.associate = function (models) {
     User.hasMany(models.Result);
     User.belongsTo(models.Group);
   };
