@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: { "len": [3, 500] }
     },
     role: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM('administrator', 'contributor', 'student'),
       allowNull: false,
       notEmpty: true,
       defaultValue: null,

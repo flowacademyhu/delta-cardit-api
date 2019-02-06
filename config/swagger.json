@@ -47,13 +47,14 @@
                 "description": "Logs in user",
                 "parameters": [
                     {
-                        "email": {
-                            "name": "email",
-                            "in": "body",
-                            "required": "true",
-                            "type": "string"
+                        "name": "body",
+                        "in": "body",
+                        "required": "true",
+                        "type": "object",
+                        "schema": {
+                            "$ref": "#/definitions/LoginRequest"
                         }
-                    }                    
+                    }
                 ],
                 "responses": {
                     "200": {
@@ -426,6 +427,16 @@
         }
     },
     "definitions": {
+        "LoginRequest": {
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
         "User": {
             "properties": {
                 "firstName": {
