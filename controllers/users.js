@@ -4,7 +4,6 @@ const models = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const checkAuthAdmin = require('./middleware/check-auth-admin');
-const checkAuthStudent = require('./middleware/check-auth-student');
 
 // LOGIN
 users.post('/login', (req, res) => {
@@ -52,7 +51,7 @@ users.get('/', checkAuthAdmin, (req, res) => {
 });
 
 // SHOW
-users.get('/:id', checkAuthStudent, (req, res) => {
+users.get('/:id', (req, res) => {
   models.User.findById(req.params.id)
     .then(user => {
       if (!user) {

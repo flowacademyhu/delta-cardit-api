@@ -2,9 +2,12 @@ const jwt = require('jsonwebtoken');
 const models = require('../../models/user');
 const paths = {
     '/users/login': ['anonymus'],
-    '/cards': ['admin', 'contributor', 'user']
+    '/': ['admin', 'contributor', 'student'],
+    '/cards': ['admin', 'contributor', 'student']
 }
 module.exports = (req, res, next) => {
+    console.log("req.path: " + req.path);
+    console.log('paths[req.path]: ' + paths[req.path]);
     if (!req.header.authorization && paths[req.path].includes('anonymus')) {
         return next();
     }
@@ -12,6 +15,7 @@ module.exports = (req, res, next) => {
         const token = req.headers.authorization;
         const decoded = jwt.verify(token, "myverysecretsecret");
         req.userData = decoded;
+        console.log(userData);
         console.log(token, decoded);
         models.User.findById(encoded.id)
             .then(user => {
