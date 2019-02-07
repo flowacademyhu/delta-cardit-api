@@ -14,6 +14,9 @@ const resultUsers = require('./controllers/resultUsers');
 const createMiddleware = require('swagger-express-middleware');
 const swaggerUi = require('swagger-ui-express');
 const swaggerFilePath = './config/swagger.json';
+const auth = require('./controllers/middleware/check-auth-admin');
+
+app.use(auth);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

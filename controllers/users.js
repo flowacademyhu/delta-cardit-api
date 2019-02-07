@@ -41,7 +41,7 @@ users.post('/login', (req, res) => {
 });
 
 // INDEX
-users.get('/', checkAuthAdmin, (req, res) => {
+users.get('/', (req, res) => {
   models.User.findAll()
     .then(users => {
       res.json(users)
