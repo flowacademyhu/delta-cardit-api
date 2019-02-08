@@ -23,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 createMiddleware(swaggerFilePath, app, (err, middleware) => {
     if (err) return console.log(err);
+    app.use('/docs', swaggerUi.serve, swaggerUi.setup(require(swaggerFilePath)));
     app.use(middleware.metadata());
     app.use(middleware.CORS());
     app.use(middleware.files());
@@ -39,7 +40,6 @@ createMiddleware(swaggerFilePath, app, (err, middleware) => {
     app.use('/decks/:deckId/cards', deckCards);
     app.use('/groups/:groupId/users', groupUsers);
     app.use('/users/:userId/results', resultUsers);
-    app.use('/docs', swaggerUi.serve, swaggerUi.setup(require(swaggerFilePath)));
     });
     
 app.listen(process.env.PORT, () => {

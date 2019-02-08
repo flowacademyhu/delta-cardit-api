@@ -3,14 +3,33 @@ const models = require('../../models');
 const config = require('../../config/config');
 const endpoints = {
     'POST /users/login': ['anonymus'],
-    'GET /docs': ['anonymus'],
     'POST /users': ['admin'],
     'GET /users': ['admin'],
     'GET /decks': ['admin', 'contributor', 'student'],
     'GET /cards': ['admin', 'contributor', 'student'],
-    'GET /groups': ['admin'],
-    'GET /results': ['admin'],
-    'GET /users/{id}': ['admin']
+    'GET /groups': ['admin', 'contributor'],
+    'GET /results': ['admin', 'contributor'],
+    'GET /users/{id}': ['admin'],
+    'PUT /users/{id}': ['admin'],
+    'DELETE /users/{id}': ['admin'],
+    'GET /users/{userId}/results': ['admin'],
+    'POST /cards': ['admin', 'contributor'],
+    'GET /cards/{id}': ['admin', 'contributor', 'student'],
+    'PUT /cards/{id}': ['admin', 'contributor'],
+    'DELETE /cards/{id}': ['admin', 'contributor'],
+    'GET /cards/{cardId}/results': ['admin', 'contributor'],
+    'GET /groups': ['admin', 'contributor'],
+    'POST /groups': ['admin'],
+    'GET /groups/{id}': ['admin', 'contributor'],
+    'PUT /groups/{id}': ['admin'],
+    'DELETE /groups/{id}': ['admin'],
+    'GET /groups/{groupId}/users': ['admin', 'contributor'],
+    'POST /decks': ['admin', 'contributor'],
+    'GET /decks/{id}': ['admin', 'contributor', 'student'],
+    'PUT /decks/{id}': ['admin', 'contributor'],
+    'DELETE /decks/{id}': ['admin', 'contributor'],
+    'GET /decks/{deckId}/cards': ['admin', 'contributor', 'student'],
+    'GET /decks/{deckId}/groups': ['admin', 'contributor']
 }
 
 module.exports = (req, res, next) => {
