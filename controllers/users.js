@@ -3,7 +3,7 @@ const users = express.Router();
 const models = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const checkAuthAdmin = require('./middleware/check-auth-admin');
+const config = require('../config/config');
 
 // LOGIN
 users.post('/login', (req, res) => {
@@ -26,7 +26,7 @@ users.post('/login', (req, res) => {
               email: user.email,
               id: user.id
             },
-            "myverysecretsecret",
+            config.JWT_SECRET,
             { expiresIn: '1h' })
           return res.status(200).json({
             message: 'Auth successful',

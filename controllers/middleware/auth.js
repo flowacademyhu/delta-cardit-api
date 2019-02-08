@@ -3,7 +3,7 @@ const models = require('../../models');
 const config = require('../../config/config');
 const endpoints = {
     'POST /users/login': ['anonymus'],
-    'GET /users': ['admin'],
+    'GET /users': ['student'],
     'GET /cards': ['admin', 'contributor', 'student']
 }
 module.exports = (req, res, next) => {
