@@ -16,34 +16,32 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerFilePath = './config/swagger.json';
 const auth = require('./controllers/middleware/auth');
 
-app.use(auth);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/cards', cards);
-app.use('/users', users);
-app.use('/decks', decks);
-app.use('/groups', groups);
-app.use('/results', results);
-app.use('/decks/:deckId/groups', deckGroups);
-app.use('/cards/:cardId/results', cardResults);
-app.use('/decks/:deckId/cards', deckCards);
-app.use('/groups/:groupId/users', groupUsers);
-app.use('/users/:userId/results', resultUsers);
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(require(swaggerFilePath)));
 
 createMiddleware(swaggerFilePath, app, (err, middleware) => {
     if (err) return console.log(err);
-    app.use(
-        middleware.metadata(),
-        middleware.CORS(),
-        middleware.files(),
-        middleware.parseRequest(),
-        middleware.validateRequest()
-    );
-});
-
+    app.use(middleware.metadata());
+    app.use(middleware.CORS());
+    app.use(middleware.files());
+    app.use(middleware.parseRequest());
+    app.use(middleware.validateRequest());
+    app.use(auth);
+    app.use('/cards', cards);
+    app.use('/users', users);
+    app.use('/decks', decks);
+    app.use('/groups', groups);
+    app.use('/results', results);
+    app.use('/decks/:deckId/groups', deckGroups);
+    app.use('/cards/:cardId/results', cardResults);
+    app.use('/decks/:deckId/cards', deckCards);
+    app.use('/groups/:groupId/users', groupUsers);
+    app.use('/users/:userId/results', resultUsers);
+    app.use('/docs', swaggerUi.serve, swaggerUi.setup(require(swaggerFilePath)));
+    });
+    
 app.listen(process.env.PORT, () => {
     console.log(`Running on port ${process.env.PORT}...`)
   });

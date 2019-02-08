@@ -11,6 +11,7 @@
     "paths": {
         "/users": {
             "get": {
+                
                 "responses": {
                     "200": {
                         "description": "Returns a list of all users",

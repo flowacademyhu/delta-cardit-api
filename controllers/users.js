@@ -65,7 +65,7 @@ users.get('/:id', (req, res) => {
 
 // CREATE
 users.post('/', (req, res) => {
-  bcrypt.hash(req.body.passwordHash, 10, (err, hash) => {
+  bcrypt.hash(req.body.password, 10, (err, hash) => {
     if (err) {
       return res.status(500).json({
         error: err
@@ -96,9 +96,8 @@ users.put('/:id', (req, res) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
-    passwordHash: req.body.passwordHash,
     role: req.body.role,
-    lastLogin: req.body.lastLogin
+    GroupId: req.body.GroupId
   };
 
   models.User.update(params,

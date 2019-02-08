@@ -6,8 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       notEmpty: true,
       validate: {
-        len: [3, 500],
-        isAlpha: true
+        len: [3, 500]
       }
     },
     lastName: {
@@ -15,8 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       notEmpty: true,
       validate: {
-        "len": [3, 500],
-        isAlpha: true
+        "len": [3, 500]
       },
     },
     email: {
@@ -38,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: { "len": [3, 500] }
     },
     role: {
-      type: DataTypes.ENUM('administrator', 'contributor', 'student'),
+      type: DataTypes.ENUM('admin', 'contributor', 'student'),
       allowNull: false,
       notEmpty: true,
       defaultValue: null,
