@@ -90,23 +90,36 @@ users.post('/', (req, res) => {
 
 // UPDATE
 users.put('/:id', (req, res) => {
-  const params = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    role: req.body.role,
-    GroupId: req.body.GroupId
-  };
-
-  models.User.update(params,
-    {
-      where: { id: req.params.id }
-    })
-    .then(user => {
-      res.json(user)
-    }).catch(err => {
-      return res.status(400).json({ message: "Failed to update user" });
+  if (req.body.password) {
+    bcrypt.hash(req.body.password, 10, (err, hash) => {
+      if (err) {
+        return res.status(500).json({
+          error: err
+        })
+      } else {
+        req.body.passwordHash = hash;
+        models.User.update(req.body,
+          {
+            where: { id: req.params.id }
+          })
+          .then(user => {
+            res.json(user)
+          }).catch(err => {
+            return res.status(400).json({ message: "Failed to update user" });
+          });
+      }
     });
+  } else {
+    models.User.update(req.body,
+      {
+        where: { id: req.params.id }
+      })
+      .then(user => {
+        res.json(user)
+      }).catch(err => {
+        return res.status(400).json({ message: "Failed to update user" });
+      });
+  }
 });
 
 // DELETE
