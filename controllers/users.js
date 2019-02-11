@@ -86,8 +86,6 @@ users.post('/', (req, res) => {
       });
     }
   })
-
-
 });
 
 // UPDATE

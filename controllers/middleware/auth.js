@@ -4,7 +4,7 @@ const config = require('../../config/config');
 const endpoints = {
     'POST /users/login': ['anonymus'],
     'POST /users': ['admin'],
-    'GET /users': ['admin'],
+    'GET /users': ['admin', 'anonymus'],
     'GET /decks': ['admin', 'contributor', 'student'],
     'GET /cards': ['admin', 'contributor', 'student'],
     'GET /groups': ['admin', 'contributor'],
@@ -36,9 +36,7 @@ module.exports = (req, res, next) => {
     const endpoint = `${req.method} ${req.swagger.pathName}`;
     if (!req.headers.authorization && endpoints[endpoint].includes('anonymus')) {
         return next();
-    }
-
-    if (!req.headers.authorization) {
+    } else if (!req.headers.authorization) {
         res.status(403).send('Unauthorized');
     }
 

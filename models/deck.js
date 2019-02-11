@@ -4,8 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     subject: {
       type:DataTypes.STRING,
       allowNull: false,
-      defaultValue: null,
       notEmpty: true,
+      unique: true,
       validate: { "len": [3,500] },
     },
   }, {});

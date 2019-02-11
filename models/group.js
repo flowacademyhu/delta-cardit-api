@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
+      unique: true,
       validate: { "len": [3,500] }
     },
   }, {});

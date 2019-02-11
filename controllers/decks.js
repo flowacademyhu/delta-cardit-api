@@ -1,5 +1,5 @@
 const express = require('express');
-const decks = express();
+const decks = express.Router();
 const models = require('../models');
 
 // INDEX

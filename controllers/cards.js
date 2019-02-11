@@ -1,6 +1,5 @@
 const express = require('express');
 const cards = express();
-const results = express();
 const models = require('../models');
 
 // index
@@ -41,13 +40,7 @@ cards.post('/', (req, res) => {
 
 // update
 cards.put('/:id', (req, res) => {
-    const params = {
-        question: req.body.question,
-        answer: req.body.answer,
-        difficulty: req.body.difficulty,
-        type: req.body.type
-    }
-    models.Card.update(params, { where: { id: req.params.id } })
+    models.Card.update(req.body, { where: { id: req.params.id } })
         .then(card => {
             if (card == 0) {
                 throw new Error('Card with given id does not exist');
@@ -58,6 +51,7 @@ cards.put('/:id', (req, res) => {
                 .json({ message: err.message });
         });
 });
+
 
 // delete
 cards.delete('/:id', (req, res) => {

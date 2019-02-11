@@ -598,8 +598,8 @@
                 "subject": {
                     "type": "string",
                     "allowNull": false,
-                    "defaultValue": null,
                     "notEmpty": true,
+                    "unique": true,
                     "validate": {
                         "len": [
                             3,
@@ -621,6 +621,7 @@
                     "type": "string",
                     "allowNull": false,
                     "notEmpty": true,
+                    "unique": true,
                     "validate": {
                         "len": [
                             3,

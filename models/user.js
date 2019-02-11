@@ -39,7 +39,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('admin', 'contributor', 'student'),
       allowNull: false,
       notEmpty: true,
-      defaultValue: null,
       validate: { "len": [3, 500] },
 
     },
