@@ -5,8 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     DeckId: DataTypes.INTEGER
   }, {});
   Card_Deck.associate = function(models) {
-    Card_Deck.belongsTo(models.Card);
-    Card_Deck.belongsTo(models.Deck);
+    Card_Deck.belongsTo(models.Card, { foreignKey: 'CardId' });
+    Card_Deck.belongsTo(models.Deck, { foreignKey: 'DeckId' });
   };
   return Card_Deck;
 };

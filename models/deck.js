@@ -2,16 +2,16 @@
 module.exports = (sequelize, DataTypes) => {
   const Deck = sequelize.define('Deck', {
     subject: {
-      type:DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       defaultValue: null,
       notEmpty: true,
-      validate: { "len": [3,500] },
-    },
+      validate: { 'len': [3, 500] }
+    }
   }, {});
-  Deck.associate = function(models) {
-    Deck.hasMany(models.Group_Deck);
-    Deck.hasMany(models.Card_Deck);
+  Deck.associate = function (models) {
+    Deck.hasMany(models.Group_Deck, { foreignKey: 'DeckId' });
+    Deck.hasMany(models.Card_Deck, { foreignKey: 'DeckId' });
   };
   return Deck;
 };

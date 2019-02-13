@@ -6,9 +6,9 @@ const models = require('../models');
 decks.get('/', (req, res) => {
   models.Deck.findAll()
     .then(decks => {
-      res.json(decks)        
+      res.json(decks);
     }).catch(function (err) {
-      return res.status(400).json({ message: "Failed to show decks" });
+      return res.status(400).json({ message: 'Failed to show decks' });
     });
 });
 
@@ -17,7 +17,7 @@ decks.get('/:id', (req, res) => {
   models.Deck.findById(req.params.id)
     .then(deck => {
       if (!deck) {
-        throw new Error('Deck with given id does not exist')
+        throw new Error('Deck with given id does not exist');
       }
       return res.json(deck);
     }).catch(err => {
@@ -28,14 +28,20 @@ decks.get('/:id', (req, res) => {
 // CREATE
 decks.post('/', (req, res) => {
   models.Deck.create({
-    subject: req.body.subject
-  }).then(deck => {
-    return res.json(deck)
-  }).catch(err => {
-    return res.status(400)
-      .json({ message: 'Failed to create deck' });
-  });
-
+    subject: req.body.subject });
+  models.Group_Deck.create({
+    DeckId: req.body.DeckId,
+    GroupId: req.body.GroupId });
+  models.Card_Deck.create({
+    DeckId: req.body.DeckId,
+    CardId: req.body.CardId
+  })
+    .then(deck => {
+      return res.json(deck);
+    }).catch(err => {
+      return res.status(400)
+        .json({ message: 'Failed to create deck' });
+    });
 });
 
 // UPDATE
@@ -56,14 +62,14 @@ decks.put('/:id', (req, res) => {
 // DELETE
 decks.delete('/:id', (req, res) => {
   models.Deck.destroy({
-      where: { id: req.params.id }
+    where: { id: req.params.id }
   }).then(deck => {
-      if (!deck) {
-          throw new Error('Deck with given id does not exist');
-      }
-      return res.json(deck);
+    if (!deck) {
+      throw new Error('Deck with given id does not exist');
+    }
+    return res.json(deck);
   }).catch(err => {
-      return res.status(400).json({ message: err.message });
+    return res.status(400).json({ message: err.message });
   });
 });
 

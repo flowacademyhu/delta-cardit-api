@@ -23,7 +23,8 @@ app.use('/users', users);
 app.use('/decks', decks);
 app.use('/groups', groups);
 app.use('/results', results);
-app.use('/decks/:deckId/groups', deckGroups);
+app.use('/deckGroups', deckGroups);
+// app.use('/decks/:deckId/groups', deckGroups);
 app.use('/cards/:cardId/results', cardResults);
 app.use('/decks/:deckId/cards', deckCards);
 app.use('/groups/:groupId/users', groupUsers);
@@ -31,16 +32,16 @@ app.use('/users/:userId/results', resultUsers);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(require(swaggerFilePath)));
 
 createMiddleware(swaggerFilePath, app, (err, middleware) => {
-    if (err) return console.log(err);
-    app.use(
-        middleware.metadata(),
-        middleware.CORS(),
-        middleware.files(),
-        middleware.parseRequest(),
-        middleware.validateRequest()
-    );
+  if (err) return console.log(err);
+  app.use(
+    // middleware.metadata(),
+    middleware.CORS(),
+    middleware.files(),
+    middleware.parseRequest()
+    // middleware.validateRequest()
+  );
 });
 
 app.listen(process.env.PORT, () => {
-    console.log(`Running on port ${process.env.PORT}...`)
-  });
+  console.log(`Running on port ${process.env.PORT}...`);
+});

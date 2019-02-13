@@ -5,13 +5,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
-      validate: {"len": [3,500] }
+      validate: { 'len': [3, 500] }
     },
     answer: {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
-      validate: { "len": [3,500] }
+      validate: { 'len': [3, 500] }
     },
     difficulty: {
       type: DataTypes.INTEGER,
@@ -23,12 +23,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
-      validate: { "len": [3,500] }
-    },
+      validate: { 'len': [3, 500] }
+    }
   }, {});
-  Card.associate = function(models) {
-    Card.hasMany(models.Result);
-    Card.hasMany(models.Card_Deck);
+  Card.associate = function (models) {
+    Card.hasMany(models.Result, { foreignKey: 'CardId' });
+    Card.hasMany(models.Card_Deck, { foreignKey: 'CardId' });
   };
   return Card;
 };

@@ -5,47 +5,51 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
-      validate: { len: [3,500],
-      isAlpha: true },
+      validate: { len: [3, 500],
+        isAlpha: true }
     },
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
-      validate: { "len": [3,500], isAlpha: true},      
+      validate: { 'len': [3, 500], isAlpha: true }
     },
     email: {
-      type:DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
       defaultValue: null,
-      validate: { "len": [3,500], isEmail: true },    
+      validate: { 'len': [3, 500], isEmail: true }
     },
     passwordHash: {
-      type:DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
       defaultValue: null,
-      validate: { "len": [3,500] },
+      validate: { 'len': [3, 500] }
     },
     role: {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
       defaultValue: null,
-      validate: { "len": [3,500] },
-     
+      validate: { 'len': [3, 500] }
+
     },
     lastLogin: {
       type: DataTypes.DATE,
       isDate: true,
       defaultValue: new Date()
     },
-    GroupId: DataTypes.INTEGER
+    GroupId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0
+    }
   }, {});
-  User.associate = function(models) {
-    User.hasMany(models.Result);
-    User.belongsTo(models.Group);
+  User.associate = function (models) {
+    User.hasMany(models.Result, { foreignKey: 'UserId' });
+    User.belongsTo(models.Group, { foreignKey: 'GroupId' });
   };
   return User;
 };
