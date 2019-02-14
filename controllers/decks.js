@@ -36,6 +36,7 @@ decks.post('/', (req, res) => {
         DeckId: deck.id,
         CardId: req.body.cardId[i]
       });
+
       deckCardPromises.push(deckCardPromise);
     }
     Promise.all(deckCardPromises)
@@ -57,7 +58,7 @@ decks.put('/:id', (req, res) => {
   const params = { subject: req.body.subject };
   models.Deck.update(params, { where: { id: req.params.id } })
     .then(deck => {
-      if (deck == 0) {
+      if (deck === 0) {
         throw new Error('Deck with given id does not exist');
       }
       return res.json(deck);
