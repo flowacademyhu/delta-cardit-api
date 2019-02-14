@@ -10,11 +10,37 @@ deckGroups.get('/', (req, res) => {
     });
 });
 
-// SHOW GROUPS BY DECKID
-deckGroups.get('/', (req, res) => {
-  models.Group.findAll({ where: { DeckId: req.params.deckId } })
-    .then(groups => {
-      res.json(groups);
+// delete
+deckGroups.delete('/:deckId', (req, res) => {
+  models.Group_Deck.destroy({
+    where: { GroupId: req.params.groupId,
+      DeckId: req.params.deckId }
+  }).then(deckGroups => {
+    if (!deckGroups) {
+      throw new Error('DeckGroups with given id does not exist');
+    }
+    return res.json(deckGroups);
+  }).catch(err => {
+    return res.status(400).json({ message: err.message });
+  });
+});
+
+// update
+deckGroups.put('/:deckId', (req, res) => {
+  const params = {
+    DeckId: req.body.deckId
+  };
+  models.Group_Deck.update(params, { where: {
+    GroupId: req.params.groupId,
+    DeckId: req.params.deckId } })
+    .then(deckGroups => {
+      if (deckGroups === 0) {
+        throw new Error('DeckCard with given id does not exist');
+      }
+      return res.json(deckGroups);
+    }).catch(err => {
+      return res.status(400)
+        .json({ message: err.message });
     });
 });
 
