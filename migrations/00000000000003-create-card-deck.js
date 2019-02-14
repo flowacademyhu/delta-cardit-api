@@ -11,15 +11,15 @@ module.exports = {
       CardId: {
         type: Sequelize.INTEGER,
         references: {
-          model: "Cards",
-          key: "id"
+          model: 'Cards',
+          key: 'id'
         }
       },
       DeckId: {
         type: Sequelize.INTEGER,
         references: {
-          model: "Decks",
-          key: "id"
+          model: 'Decks',
+          key: 'id'
         }
       },
       createdAt: {

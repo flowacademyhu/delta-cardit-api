@@ -28,14 +28,7 @@ decks.get('/:id', (req, res) => {
 // CREATE
 decks.post('/', (req, res) => {
   models.Deck.create({
-    subject: req.body.subject });
-  models.Group_Deck.create({
-    DeckId: req.body.DeckId,
-    GroupId: req.body.GroupId });
-  models.Card_Deck.create({
-    DeckId: req.body.DeckId,
-    CardId: req.body.CardId
-  })
+    subject: req.body.subject })
     .then(deck => {
       return res.json(deck);
     }).catch(err => {

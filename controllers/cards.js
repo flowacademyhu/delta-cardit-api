@@ -1,6 +1,5 @@
 const express = require('express');
 const cards = express();
-const results = express();
 const models = require('../models');
 
 // index
@@ -29,46 +28,28 @@ cards.post('/', (req, res) => {
     question: req.body.question,
     answer: req.body.answer,
     difficulty: req.body.difficulty,
-    type: req.body.type });
+    type: req.body.type
   }).then(card => {
-    console.log('>> Card created!');
+    const cardDeckPromises = [];
     for (let i = 0; i < req.body.deckId.length; i++) {
-    let object = { cardId: card.id, deckId: req.body.deckId[i] };
-    models.Card_Deck.findOne({ where: { DeckId: req.body.deckId[i] } })
-      .then(cardDeck => {
-        console.log('>> >> CardDeck found!');
-        console.log(cardDeck);
-        if (cardDeck && !cardDeck.CardId) {
-          console.log('updated');
-          models.Card_Deck.update({
-            CardId: card.id,
-            DeckId: req.body.deckId[i]
-          }, {
-            where: { deckId: req.body.deckId[i] }
-          })
-            .then(cardDeck => {
-              console.log('>> >> >> CardDeck updated!');
-              return res.status(200).json(card);
-            })
-            .catch(error => res.json(error));
-          return res.status(200).json(card);
-        } else {
-          models.Card_Deck.create(object).then(cardDeck => {
-            console.log('>> >> CardDeck created!');
-            return res.status(200).json(card);
-          });
-        }
+      const cardDeckPromise = models.Card_Deck.create({
+        CardId: card.id,
+        DeckId: req.body.deckId[i]
+      });
+      cardDeckPromises.push(cardDeckPromise);
+    }
+    Promise.all(cardDeckPromises)
+      .then(cardDecks => {
+        console.log(cardDecks);
+        card.dataValues.cardDecks = cardDecks;
+        res.status(200).json(card);
       })
       .catch(error => {
-        console.error('CardDeck NOT found with: ' + req.body.deckId[i]);
-        res.status(404).json(error);
+        res.status(500).json({ error: error, message: 'Első catch' });
       });
-    }
-    console.log('>> >> >> BulkCreate ended!');
-    }).catch(error => {
-  res.status(404).json(error);
+  }).catch(error => {
+    res.status(500).json({ error: error, message: 'Második catch' });
   });
-  console.log('Card creating finished!');
 });
 
 // update
