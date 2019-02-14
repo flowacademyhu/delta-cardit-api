@@ -4,38 +4,37 @@ const models = require('../models');
 
 // index
 cards.get('/', (req, res) => {
-    models.Card.findAll({ order: [['id', 'ASC']] }).then(cards => {
-        res.json(cards);
-    });
+  models.Card.findAll({ order: [['id', 'ASC']] }).then(cards => {
+    res.json(cards);
+  });
 });
 
 // show
 cards.get('/:id', (req, res) => {
-    models.Card.findById(req.params.id)
-        .then(card => {
-            if (!card) {
-                throw new Error('Card with given id does not exist')
-            }
-            return res.json(card);
-        }).catch(err => {
-            return res.status(400).json({ message: err.message });
-        });
+  models.Card.findById(req.params.id)
+    .then(card => {
+      if (!card) {
+        throw new Error('Card with given id does not exist');
+      }
+      return res.json(card);
+    }).catch(err => {
+      return res.status(400).json({ message: err.message });
+    });
 });
 
 // create
 cards.post('/', (req, res) => {
-    models.Card.create({
-        question: req.body.question,
-        answer: req.body.answer,
-        difficulty: req.body.difficulty,
-        type: req.body.type
-    }).then(card => {
-        return res.json(card)
-    }).catch(err => {
-        return res.status(400)
-            .json({ message: 'Failed to create card' });
-    });
-
+  models.Card.create({
+    question: req.body.question,
+    answer: req.body.answer,
+    difficulty: req.body.difficulty,
+    type: req.body.type
+  }).then(card => {
+    return res.json(card);
+  }).catch(err => {
+    return res.status(400)
+      .json({ message: 'Failed to create card' });
+  });
 });
 
 // update
@@ -55,16 +54,16 @@ cards.put('/:id', (req, res) => {
 
 // delete
 cards.delete('/:id', (req, res) => {
-    models.Card.destroy({
-        where: { id: req.params.id }
-    }).then(card => {
-        if (!card) {
-            throw new Error('Card with given id does not exist');
-        }
-        return res.json(card);
-    }).catch(err => {
-        return res.status(400).json({ message: err.message });
-    });
+  models.Card.destroy({
+    where: { id: req.params.id }
+  }).then(card => {
+    if (!card) {
+      throw new Error('Card with given id does not exist');
+    }
+    return res.json(card);
+  }).catch(err => {
+    return res.status(400).json({ message: err.message });
+  });
 });
 
 module.exports = cards;

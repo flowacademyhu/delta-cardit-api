@@ -55,7 +55,7 @@ users.get('/:id', (req, res) => {
   models.User.findById(req.params.id)
     .then(user => {
       if (!user) {
-        throw new Error('User with given id does not exist')
+        throw new Error('User with given id does not exist');
       }
       return res.json(user);
     }).catch(err => {

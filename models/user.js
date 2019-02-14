@@ -47,11 +47,15 @@ module.exports = (sequelize, DataTypes) => {
       isDate: true,
       defaultValue: new Date()
     },
-    GroupId: DataTypes.INTEGER
+    GroupId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0
+    }
   }, {});
   User.associate = function (models) {
-    User.hasMany(models.Result);
-    User.belongsTo(models.Group);
+    User.hasMany(models.Result, { foreignKey: 'UserId' });
+    User.belongsTo(models.Group, { foreignKey: 'GroupId' });
   };
   return User;
 };

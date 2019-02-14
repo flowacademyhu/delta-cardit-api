@@ -4,64 +4,78 @@ const models = require('../models');
 
 // index
 groups.get('/', (req, res) => {
-    models.Group.findAll({ order: [['id', 'ASC']] })
-        .then(groups => {
-            res.json(groups);
-        });
+  models.Group.findAll({ order: [['id', 'ASC']] })
+    .then(groups => {
+      res.json(groups);
+    });
 });
 
 // show
 groups.get('/:id', (req, res) => {
-    models.Group.findById(req.params.id)
-        .then(group => {
-            if (!group) {
-                throw new Error('Group with given id does not exist')
-            }
-            return res.json(group);
-        }).catch(err => {
-            return res.status(400).json({ message: err.message });
-        });
+  models.Group.findById(req.params.id)
+    .then(group => {
+      if (!group) {
+        throw new Error('Group with given id does not exist');
+      }
+      return res.json(group);
+    }).catch(err => {
+      return res.status(400).json({ message: err.message });
+    });
 });
 
-// create
+/// create
 groups.post('/', (req, res) => {
-    models.Group.create({
-        name: req.body.name
-    }).then(group => {
-        return res.json(group)
-    }).catch(err => {
-        return res.status(400)
-            .json({ message: 'Failed to create group' });
-    });
-
+  models.Group.create({
+    name: req.body.name
+  }).then(group => {
+    const groupDeckPromises = [];
+    for (let i = 0; i < req.body.deckId.length; i++) {
+      const groupDeckPromise = models.Group_Deck.create({
+        GroupId: group.id,
+        DeckId: req.body.deckId[i]
+      });
+      groupDeckPromises.push(groupDeckPromise);
+    }
+    Promise.all(groupDeckPromises)
+      .then(groupDecks => {
+        console.log(groupDecks);
+        group.dataValues.groupDecks = groupDecks;
+        res.status(200).json(group);
+      })
+      .catch(error => {
+        res.status(500).json({ error: error, message: 'Első catch' });
+      });
+  }).catch(error => {
+    res.status(500).json({ error: error, message: 'Második catch' });
+  });
 });
 
 // update
 groups.put('/:id', (req, res) => {
-    models.Group.update(req.body, { where: { id: req.params.id } })
-        .then(group => {
-            if (group == 0) {
-                throw new Error('Group with given id does not exist');
-            }
-            return res.json(group);
-        }).catch(err => {
-            return res.status(400)
-                .json({ message: err.message });
-        });
+  models.Group.update(req.body, { where: { id: req.params.id } })
+    .then(group => {
+      if (group === 0) {
+        throw new Error('Group with given id does not exist');
+      }
+      return res.json(group);
+    }).catch(err => {
+      return res.status(400)
+        .json({ message: err.message });
+    });
 });
 
 // delete
 groups.delete('/:id', (req, res) => {
-    models.Group.destroy({
-        where: { id: req.params.id }
-    }).then(group => {
-        if (!group) {
-            throw new Error('Group with given id does not exist');
-        }
-        return res.json(group);
-    }).catch(err => {
-        return res.status(400).json({ message: err.message });
-    });
+  models.Group.destroy({
+    where: { id: req.params.id }
+  }).then(group => {
+    if (!group) {
+      throw new Error('Group with given id does not exist');
+    }
+    return res.json(group);
+  }).catch(err => {
+    return res.status(400).json({ message: err.message });
+  });
 });
 
 module.exports = groups;

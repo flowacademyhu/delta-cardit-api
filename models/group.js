@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {});
   Group.associate = function (models) {
-    Group.hasMany(models.User);
-    Group.hasMany(models.Group_Deck);
+    Group.hasMany(models.User, { foreignKey: 'GroupId' });
+    Group.hasMany(models.Group_Deck, { foreignKey: 'GroupId' });
   };
   return Group;
 };

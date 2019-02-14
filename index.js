@@ -35,7 +35,7 @@ createMiddleware(swaggerFilePath, app, (err, middleware) => {
     app.use('/decks', decks);
     app.use('/groups', groups);
     app.use('/results', results);
-    app.use('/decks/:deckId/groups', deckGroups);
+    app.use('/groups/groupId/decks', deckGroups);
     app.use('/cards/:cardId/results', cardResults);
     app.use('/decks/:deckId/cards', deckCards);
     app.use('/groups/:groupId/users', groupUsers);
@@ -43,5 +43,5 @@ createMiddleware(swaggerFilePath, app, (err, middleware) => {
     });
     
 app.listen(process.env.PORT, () => {
-    console.log(`Running on port ${process.env.PORT}...`)
-  });
+  console.log(`Running on port ${process.env.PORT}...`);
+});
