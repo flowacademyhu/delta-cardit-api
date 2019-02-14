@@ -23,54 +23,31 @@ groups.get('/:id', (req, res) => {
     });
 });
 
-// create
+/// create
 groups.post('/', (req, res) => {
   models.Group.create({
     name: req.body.name
-  })
-    .then(group => {
-      for (let i = 0; i < req.body.deckId.length; i++) {
-        let objects = {
-          DeckId: req.body.deckId[i],
-          GroupId: group.id
-        };
-        models.Group_Deck.findOne({
-          where: {
-            DeckId: req.body.deckId[i]
-          }
-        })
-          .then(deckGroup => {
-            if (deckGroup && !deckGroup.DeckId) {
-              console.log('updated');
-              models.Deck_Group.update({
-                GroupId: group.id,
-                DeckId: req.body.deckId[i]
-              }, {
-                where: { DeckId: req.body.deckId[i] }
-              })
-                .then(deckGroup => {
-                  console.log('>> >> >> DeckGroup updated!');
-                  return res.status(200).json(group);
-                })
-                .catch(error => res.json(error));
-              return res.status(200).json(group);
-            } else {
-              models.Deck_Group.create(objects).then(deckGroup => {
-                console.log('>> >> DeckGroup created!');
-                return res.status(200).json(group);
-              });
-            }
-          })
-          .catch(error => {
-            console.error('DeckGroup NOT found with: ' + req.body.deckId[i]);
-            res.status(404).json(error);
-          });
-      }
-      console.log('>> >> >> BulkCreate ended!');
-    }).catch(error => {
-      res.status(404).json(error);
-    });
-  console.log('Group creating finished!');
+  }).then(group => {
+    const groupDeckPromises = [];
+    for (let i = 0; i < req.body.deckId.length; i++) {
+      const groupDeckPromise = models.Group_Deck.create({
+        GroupId: group.id,
+        DeckId: req.body.deckId[i]
+      });
+      groupDeckPromises.push(groupDeckPromise);
+    }
+    Promise.all(groupDeckPromises)
+      .then(groupDecks => {
+        console.log(groupDecks);
+        group.dataValues.groupDecks = groupDecks;
+        res.status(200).json(group);
+      })
+      .catch(error => {
+        res.status(500).json({ error: error, message: 'Első catch' });
+      });
+  }).catch(error => {
+    res.status(500).json({ error: error, message: 'Második catch' });
+  });
 });
 
 // update

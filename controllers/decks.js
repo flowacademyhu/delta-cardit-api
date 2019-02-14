@@ -25,16 +25,31 @@ decks.get('/:id', (req, res) => {
     });
 });
 
-// CREATE
+/// create
 decks.post('/', (req, res) => {
   models.Deck.create({
-    subject: req.body.subject })
-    .then(deck => {
-      return res.json(deck);
-    }).catch(err => {
-      return res.status(400)
-        .json({ message: 'Failed to create deck' });
-    });
+    subject: req.body.subject
+  }).then(deck => {
+    const deckCardPromises = [];
+    for (let i = 0; i < req.body.cardId.length; i++) {
+      const deckCardPromise = models.Card_Deck.create({
+        DeckId: deck.id,
+        CardId: req.body.cardId[i]
+      });
+      deckCardPromises.push(deckCardPromise);
+    }
+    Promise.all(deckCardPromises)
+      .then(deckCards => {
+        console.log(deckCards);
+        deck.dataValues.deckCards = deckCards;
+        res.status(200).json(deck);
+      })
+      .catch(error => {
+        res.status(500).json({ error: error, message: 'Első catch' });
+      });
+  }).catch(error => {
+    res.status(500).json({ error: error, message: 'Második catch' });
+  });
 });
 
 // UPDATE
