@@ -10,6 +10,32 @@ deckGroups.get('/', (req, res) => {
     });
 });
 
+// CREATE DECKGROUPS
+deckGroups.post('/', (req, res) => {
+  models.Group_Deck.create({
+    GroupId: req.params.groupId
+  }).then(deckGroups => {
+    const deckGroupPromises = [];
+    for (let i = 0; i < req.body.deckId.length; i++) {
+      const deckGroupPromise = models.Group_Deck.create({
+        GroupId: req.params.groupId,
+        DeckId: req.body.deckId[i]
+      });
+      deckGroupPromises.push(deckGroupPromise);
+    }
+    Promise.all(deckGroupPromises)
+      .then(deckGroups => {
+        console.log(deckGroups);
+        res.status(200).json(deckGroups);
+      })
+      .catch(error => {
+        res.status(500).json({ error: error, message: 'Első catch' });
+      });
+  }).catch(error => {
+    res.status(500).json({ error: error, message: 'Második catch' });
+  });
+});
+
 // delete
 deckGroups.delete('/:deckId', (req, res) => {
   models.Group_Deck.destroy({

@@ -10,6 +10,32 @@ deckCards.get('/', (req, res) => {
     });
 });
 
+// CREATE DECKCARDS
+deckCards.post('/', (req, res) => {
+  models.Card_Deck.create({
+    DeckId: req.params.deckId
+  }).then(deckCards => {
+    const deckCardPromises = [];
+    for (let i = 0; i < req.body.cardId.length; i++) {
+      const deckCardPromise = models.Card_Deck.create({
+        DeckId: req.params.deckId,
+        CardId: req.body.cardId[i]
+      });
+      deckCardPromises.push(deckCardPromise);
+    }
+    Promise.all(deckCardPromises)
+      .then(deckCards => {
+        console.log(deckCards);
+        res.status(200).json(deckCards);
+      })
+      .catch(error => {
+        res.status(500).json({ error: error, message: 'Első catch' });
+      });
+  }).catch(error => {
+    res.status(500).json({ error: error, message: 'Második catch' });
+  });
+});
+
 // delete
 deckCards.delete('/:cardId', (req, res) => {
   models.Card_Deck.destroy({
