@@ -5,35 +5,41 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
-      validate: { len: [3, 500],
-        isAlpha: true }
+      validate: {
+        len: [3, 500]
+      }
     },
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
-      validate: { 'len': [3, 500], isAlpha: true }
+      validate: {
+        "len": [3, 500]
+      },
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
       defaultValue: null,
-      validate: { 'len': [3, 500], isEmail: true }
+      unique: true,
+      validate: {
+        "len": [3, 500],
+        isEmail: true
+      }
     },
     passwordHash: {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
       defaultValue: null,
-      validate: { 'len': [3, 500] }
+      validate: { "len": [3, 500] }
     },
     role: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM('admin', 'contributor', 'student'),
       allowNull: false,
       notEmpty: true,
-      defaultValue: null,
-      validate: { 'len': [3, 500] }
+      validate: { "len": [3, 500] },
 
     },
     lastLogin: {

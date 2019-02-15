@@ -4,10 +4,10 @@ module.exports = (sequelize, DataTypes) => {
     subject: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: null,
       notEmpty: true,
-      validate: { 'len': [3, 500] }
-    }
+      unique: true,
+      validate: { "len": [3,500] },
+    },
   }, {});
   Deck.associate = function (models) {
     Deck.hasMany(models.Group_Deck, { foreignKey: 'DeckId' });

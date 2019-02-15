@@ -22,6 +22,7 @@
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
     "jwt-express": "^1.1.0",
+    "mailgun-js": "^0.22.0",
     "pg": "^7.8.0",
     "sequelize": "^4.42.0",
     "sequelize-cli": "^5.4.0",

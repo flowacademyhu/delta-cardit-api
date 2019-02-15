@@ -11,6 +11,7 @@
     "paths": {
         "/users": {
             "get": {
+                "description": "Index of users",
                 "responses": {
                     "200": {
                         "description": "Returns a list of all users",
@@ -24,6 +25,7 @@
                 }
             },
             "post": {
+                "description": "Creates new user",
                 "parameters": [
                     {
                         "$ref": "#/parameters/userData"
@@ -42,8 +44,36 @@
                 }
             }
         },
+        "/users/login": {
+            "post": {
+                "description": "Logs in user",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": "true",
+                        "type": "object",
+                        "schema": {
+                            "$ref": "#/definitions/LoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Logs in user",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "401": {
+                        "description": "Auth failed"
+                    }
+                }
+            }
+        },
         "/users/{id}": {
             "get": {
+                "description": "Show user by id",
                 "parameters": [
                     {
                         "$ref": "#/parameters/id"
@@ -62,6 +92,7 @@
                 }
             },
             "put": {
+                "description": "Update user by id",
                 "parameters": [
                     {
                         "$ref": "#/parameters/id"
@@ -83,6 +114,7 @@
                 }
             },
             "delete": {
+                "description": "Delete user by id",
                 "parameters": [
                     {
                         "$ref": "#/parameters/id"
@@ -103,6 +135,7 @@
         },
         "/users/{userId}/results": {
             "get": {
+                "description": "Show results by userId",
                 "responses": {
                     "200": {
                         "description": "Returns a list of results by userId."
@@ -112,6 +145,7 @@
         },
         "/cards": {
             "get": {
+                "description": "Index of cards",
                 "responses": {
                     "200": {
                         "description": "Returns a list of cards"
@@ -119,6 +153,7 @@
                 }
             },
             "post": {
+                "description": "Creates new card",
                 "parameters": [
                     {
                         "$ref": "#/parameters/cardData"
@@ -139,6 +174,7 @@
         },
         "/cards/{id}": {
             "get": {
+                "description": "Show car by id",
                 "parameters": [
                     {
                         "$ref": "#/parameters/id"
@@ -157,6 +193,7 @@
                 }
             },
             "put": {
+                "description": "Update card by id",
                 "parameters": [
                     {
                         "$ref": "#/parameters/id"
@@ -178,6 +215,7 @@
                 }
             },
             "delete": {
+                "description": "Delete card by id",
                 "parameters": [
                     {
                         "$ref": "#/parameters/id"
@@ -198,6 +236,7 @@
         },
         "/cards/{cardId}/results": {
             "get": {
+                "description": "Show results by cardId",
                 "responses": {
                     "200": {
                         "description": ""
@@ -207,6 +246,7 @@
         },
         "/groups": {
             "get": {
+                "description": "Index of groups",
                 "responses": {
                     "200": {
                         "description": "Returns a list of groups"
@@ -214,6 +254,7 @@
                 }
             },
             "post": {
+                "description": "Creates new group",
                 "parameters": [
                     {
                         "$ref": "#/parameters/groupData"
@@ -231,6 +272,7 @@
         },
         "/groups/{id}": {
             "get": {
+                "description": "Show group by id",
                 "parameters": [
                     {
                         "$ref": "#/parameters/id"
@@ -249,6 +291,7 @@
                 }
             },
             "put": {
+                "description": "Update group by id",
                 "parameters": [
                     {
                         "$ref": "#/parameters/id"
@@ -270,6 +313,7 @@
                 }
             },
             "delete": {
+                "description": "Delete group by id",
                 "parameters": [
                     {
                         "$ref": "#/parameters/id"
@@ -290,6 +334,15 @@
         },
         "/groups/{groupId}/users": {
             "get": {
+                "description": "Show users by groupId",
+                "parameters": [
+                    {
+                        "name": "groupId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": ""
@@ -299,6 +352,7 @@
         },
         "/decks": {
             "get": {
+                "description": "Index of decks",
                 "responses": {
                     "200": {
                         "description": "Returns a list of decks"
@@ -306,6 +360,7 @@
                 }
             },
             "post": {
+                "description": "Creates new deck",
                 "parameters": [
                     {
                         "$ref": "#/parameters/deckData"
@@ -323,6 +378,7 @@
         },
         "/decks/{id}": {
             "get": {
+                "description": "Show deck by id",
                 "parameters": [
                     {
                         "$ref": "#/parameters/id"
@@ -341,6 +397,7 @@
                 }
             },
             "put": {
+                "description": "Update deck by id",
                 "parameters": [
                     {
                         "$ref": "#/parameters/id"
@@ -362,6 +419,7 @@
                 }
             },
             "delete": {
+                "description": "Delete deck by id",
                 "parameters": [
                     {
                         "$ref": "#/parameters/id"
@@ -382,24 +440,50 @@
         },
         "/decks/{deckId}/cards": {
             "get": {
+                "description": "Show cards by deckId",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/deckId"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": ""
+                        "description": "Getting cards successful"
                     }
                 }
-            }
-        },
-        "/decks/{deckId}/groups": {
-            "get": {
+            },
+            "post": {
+                "description": "Post deckCards",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/deckId"
+                    },
+                    {
+                        "name": "cardId",
+                        "in": "body",
+                        "required": "true",
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": ""
+                        "description": "Posting successful"
                     }
                 }
             }
         }
     },
     "definitions": {
+        "LoginRequest": {
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
         "User": {
             "properties": {
                 "firstName": {
@@ -410,9 +494,7 @@
                         "len": [
                             3,
                             500
-                        ],
-                        "isAlpha": true,
-                        "notEmpty": true
+                        ]
                     }
                 },
                 "lastName": {
@@ -423,9 +505,7 @@
                         "len": [
                             3,
                             500
-                        ],
-                        "isAlpha": true,
-                        "notEmpty": true
+                        ]
                     }
                 },
                 "email": {
@@ -433,13 +513,13 @@
                     "allowNull": false,
                     "notEmpty": true,
                     "defaultValue": null,
+                    "unique": true,
                     "validate": {
                         "len": [
                             3,
                             500
                         ],
-                        "isEmail": true,
-                        "notEmpty": true
+                        "isEmail": true
                     }
                 },
                 "passwordHash": {
@@ -451,12 +531,16 @@
                         "len": [
                             3,
                             500
-                        ],
-                        "notEmpty": true
+                        ]
                     }
                 },
                 "role": {
                     "type": "string",
+                    "enum": [
+                        "admin",
+                        "contributor",
+                        "student"
+                    ],
                     "allowNull": false,
                     "notEmpty": true,
                     "defaultValue": null,
@@ -464,8 +548,7 @@
                         "len": [
                             3,
                             500
-                        ],
-                        "notEmpty": true
+                        ]
                     }
                 },
                 "lastLogin": {
@@ -541,14 +624,13 @@
                 "subject": {
                     "type": "string",
                     "allowNull": false,
-                    "defaultValue": null,
                     "notEmpty": true,
+                    "unique": true,
                     "validate": {
                         "len": [
                             3,
                             500
-                        ],
-                        "notEmpty": true
+                        ]
                     }
                 }
             }
@@ -565,6 +647,7 @@
                     "type": "string",
                     "allowNull": false,
                     "notEmpty": true,
+                    "unique": true,
                     "validate": {
                         "len": [
                             3,
@@ -583,7 +666,7 @@
         "Result": {
             "properties": {
                 "UserId": {
-                    "type": "string",
+                    "type": "integer",
                     "allowNull": false,
                     "notEmpty": true
                 },
@@ -609,6 +692,12 @@
     "parameters": {
         "id": {
             "name": "id",
+            "in": "path",
+            "required": "true",
+            "type": "integer"
+        },
+        "deckId": {
+            "name": "deckId",
             "in": "path",
             "required": "true",
             "type": "integer"
