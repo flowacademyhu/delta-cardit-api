@@ -7,8 +7,10 @@ const decks = require('./controllers/decks');
 const groups = require('./controllers/groups');
 const results = require('./controllers/results');
 const deckGroups = require('./controllers/deckGroups');
+const groupDecks = require('./controllers/groupDecks');
 const cardResults = require('./controllers/cardResults');
 const deckCards = require('./controllers/deckCards');
+const cardDecks = require('./controllers/cardDecks');
 const groupUsers = require('./controllers/groupUsers');
 const resultUsers = require('./controllers/resultUsers');
 const createMiddleware = require('swagger-express-middleware');
@@ -23,9 +25,11 @@ app.use('/users', users);
 app.use('/decks', decks);
 app.use('/groups', groups);
 app.use('/results', results);
-app.use('/groups/:groupId/decks', deckGroups);
+app.use('/groups/:groupId/decks', groupDecks);
+app.use('/decks/:deckId/groups', deckGroups);
 app.use('/cards/:cardId/results', cardResults);
 app.use('/decks/:deckId/cards', deckCards);
+app.use('/cards/:cardId/decks', cardDecks);
 app.use('/groups/:groupId/users', groupUsers);
 app.use('/users/:userId/results', resultUsers);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(require(swaggerFilePath)));
@@ -33,11 +37,11 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(require(swaggerFilePath)));
 createMiddleware(swaggerFilePath, app, (err, middleware) => {
   if (err) return console.log(err);
   app.use(
-    // middleware.metadata(),
+    middleware.metadata(),
     middleware.CORS(),
     middleware.files(),
     middleware.parseRequest()
-    // middleware.validateRequest()
+  // middleware.validateRequest()
   );
 });
 

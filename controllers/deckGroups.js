@@ -4,22 +4,22 @@ const models = require('../models');
 
 // SHOW DECKS BY GROUPID
 deckGroups.get('/', (req, res) => {
-  models.Group_Deck.findAll({ where: { GroupId: req.params.groupId } })
-    .then(decks => {
-      res.json(decks);
+  models.Group_Deck.findAll({ where: { DeckId: req.params.deckId } })
+    .then(groups => {
+      res.json(groups);
     });
 });
 
 // CREATE DECKGROUPS
 deckGroups.post('/', (req, res) => {
   models.Group_Deck.create({
-    GroupId: req.params.groupId
+    DeckId: req.params.groupId
   }).then(deckGroups => {
     const deckGroupPromises = [];
-    for (let i = 0; i < req.body.deckId.length; i++) {
+    for (let i = 0; i < req.body.groupId.length; i++) {
       const deckGroupPromise = models.Group_Deck.create({
-        GroupId: req.params.groupId,
-        DeckId: req.body.deckId[i]
+        DeckId: req.params.deckId,
+        GroupId: req.body.groupId[i]
       });
       deckGroupPromises.push(deckGroupPromise);
     }
@@ -37,7 +37,7 @@ deckGroups.post('/', (req, res) => {
 });
 
 // delete
-deckGroups.delete('/:deckId', (req, res) => {
+deckGroups.delete('/:groupId', (req, res) => {
   models.Group_Deck.destroy({
     where: { GroupId: req.params.groupId,
       DeckId: req.params.deckId }
@@ -52,9 +52,9 @@ deckGroups.delete('/:deckId', (req, res) => {
 });
 
 // update
-deckGroups.put('/:deckId', (req, res) => {
+deckGroups.put('/:groupId', (req, res) => {
   const params = {
-    DeckId: req.body.deckId
+    GroupId: req.body.groupId
   };
   models.Group_Deck.update(params, { where: {
     GroupId: req.params.groupId,

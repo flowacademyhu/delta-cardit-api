@@ -30,10 +30,26 @@ cards.post('/', (req, res) => {
     difficulty: req.body.difficulty,
     type: req.body.type
   }).then(card => {
-    return res.json(card);
-  }).catch(err => {
-    return res.status(400)
-      .json({ message: 'Failed to create card' });
+    const deckCardPromises = [];
+    for (let i = 0; i < req.body.deckId.length; i++) {
+      const deckCardPromise = models.Card_Deck.create({
+        CardId: card.id,
+        DeckId: req.body.deckId[i]
+      });
+
+      deckCardPromises.push(deckCardPromise);
+    }
+    Promise.all(deckCardPromises)
+      .then(deckCards => {
+        console.log(deckCards);
+        card.dataValues.deckCards = deckCards;
+        res.status(200).json(card);
+      })
+      .catch(error => {
+        res.status(500).json({ error: error, message: 'Első catch' });
+      });
+  }).catch(error => {
+    res.status(500).json({ error: error, message: 'Második catch' });
   });
 });
 
@@ -47,7 +63,7 @@ cards.put('/:id', (req, res) => {
   };
   models.Card.update(params, { where: { id: req.params.id } })
     .then(card => {
-      if (card == 0) {
+      if (card === 0) {
         throw new Error('Card with given id does not exist');
       }
       return res.json(card);

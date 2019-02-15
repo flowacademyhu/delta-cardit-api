@@ -30,19 +30,19 @@ decks.post('/', (req, res) => {
   models.Deck.create({
     subject: req.body.subject
   }).then(deck => {
-    const deckCardPromises = [];
-    for (let i = 0; i < req.body.cardId.length; i++) {
-      const deckCardPromise = models.Card_Deck.create({
+    const deckGroupPromises = [];
+    for (let i = 0; i < req.body.groupId.length; i++) {
+      const deckGroupPromise = models.Group_Deck.create({
         DeckId: deck.id,
-        CardId: req.body.cardId[i]
+        GroupId: req.body.groupId[i]
       });
 
-      deckCardPromises.push(deckCardPromise);
+      deckGroupPromises.push(deckGroupPromise);
     }
-    Promise.all(deckCardPromises)
-      .then(deckCards => {
-        console.log(deckCards);
-        deck.dataValues.deckCards = deckCards;
+    Promise.all(deckGroupPromises)
+      .then(deckGroups => {
+        console.log(deckGroups);
+        deck.dataValues.deckGroups = deckGroups;
         res.status(200).json(deck);
       })
       .catch(error => {

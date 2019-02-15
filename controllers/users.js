@@ -9,7 +9,7 @@ users.get('/', (req, res) => {
       res.json(users);
     }).catch(function (err) {
       return res.status(400).json({ message: 'Failed to show users' });
-        });
+    });
 });
 
 // SHOW
