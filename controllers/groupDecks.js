@@ -2,13 +2,23 @@ const express = require('express');
 const groupDecks = express.Router({ mergeParams: true });
 const models = require('../models');
 
-// SHOW GROUPS BY DECKID
+// SHOW DECKS BY GROUPID
 groupDecks.get('/', (req, res) => {
   models.Group_Deck.findAll({ where: { GroupId: req.params.groupId } })
-    .then(decks => {
-      res.json(decks);
+    .then(group_decks => {
+      let deckPromises = [];
+      group_decks.forEach(deck => {
+        if (deck.dataValues.DeckId) {
+          const deckPromise = models.Deck.findOne({where: {id: deck.dataValues.DeckId}});
+          deckPromises.push(deckPromise);
+        }      
+    })
+    Promise.all(deckPromises).then(decks => {
+      res.status(200).json(decks)
+    });
     });
 });
+
 
 // CREATE DECKGROUPS
 groupDecks.post('/', (req, res) => {
