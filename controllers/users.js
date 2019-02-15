@@ -27,7 +27,7 @@ users.post('/login', (req, res) => {
               id: user.id
             },
             config.JWT_SECRET,
-            { expiresIn: '1h' })
+            { expiresIn: '1h' });
           return res.status(200).json({
             message: 'Auth successful',
             token: token
@@ -44,9 +44,9 @@ users.post('/login', (req, res) => {
 users.get('/', (req, res) => {
   models.User.findAll()
     .then(users => {
-      res.json(users)
+      res.json(users);
     }).catch(function (err) {
-      return res.status(400).json({ message: "Failed to show users" });
+      return res.status(400).json({ message: 'Failed to show users' });
     });
 });
 
@@ -69,7 +69,7 @@ users.post('/', (req, res) => {
     if (err) {
       return res.status(500).json({
         error: err
-      })
+      });
     } else {
       models.User.create({
         firstName: req.body.firstName,
@@ -79,13 +79,13 @@ users.post('/', (req, res) => {
         role: req.body.role,
         GroupId: req.body.GroupId
       }).then(user => {
-        return res.json(user)
+        return res.json(user);
       }).catch(err => {
         return res.status(400)
           .json({ message: 'Failed to create user' });
       });
     }
-  })
+  });
 });
 
 // UPDATE
@@ -95,7 +95,7 @@ users.put('/:id', (req, res) => {
       if (err) {
         return res.status(500).json({
           error: err
-        })
+        });
       } else {
         req.body.passwordHash = hash;
         models.User.update(req.body,
@@ -103,9 +103,9 @@ users.put('/:id', (req, res) => {
             where: { id: req.params.id }
           })
           .then(user => {
-            res.json(user)
+            res.json(user);
           }).catch(err => {
-            return res.status(400).json({ message: "Failed to update user" });
+            return res.status(400).json({ message: 'Failed to update user' });
           });
       }
     });
@@ -115,9 +115,9 @@ users.put('/:id', (req, res) => {
         where: { id: req.params.id }
       })
       .then(user => {
-        res.json(user)
+        res.json(user);
       }).catch(err => {
-        return res.status(400).json({ message: "Failed to update user" });
+        return res.status(400).json({ message: 'Failed to update user' });
       });
   }
 });

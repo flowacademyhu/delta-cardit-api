@@ -1,5 +1,5 @@
 const express = require('express');
-const groups = express.Router();
+const groups = express.Router({ mergeParams: true });
 const models = require('../models');
 
 // index
@@ -23,30 +23,15 @@ groups.get('/:id', (req, res) => {
     });
 });
 
-/// create
+// create
 groups.post('/', (req, res) => {
   models.Group.create({
     name: req.body.name
   }).then(group => {
-    const groupDeckPromises = [];
-    for (let i = 0; i < req.body.deckId.length; i++) {
-      const groupDeckPromise = models.Group_Deck.create({
-        GroupId: group.id,
-        DeckId: req.body.deckId[i]
-      });
-      groupDeckPromises.push(groupDeckPromise);
-    }
-    Promise.all(groupDeckPromises)
-      .then(groupDecks => {
-        console.log(groupDecks);
-        group.dataValues.groupDecks = groupDecks;
-        res.status(200).json(group);
-      })
-      .catch(error => {
-        res.status(500).json({ error: error, message: 'Első catch' });
-      });
-  }).catch(error => {
-    res.status(500).json({ error: error, message: 'Második catch' });
+    return res.json(group);
+  }).catch(err => {
+    return res.status(400)
+      .json({ message: 'Failed to create group' });
   });
 });
 
