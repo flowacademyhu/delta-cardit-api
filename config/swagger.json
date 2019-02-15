@@ -408,19 +408,9 @@
         },
         "/groups/{groupId}/decks/{deckId}": {
             "put": {
-                "description": "Update deck by groupId",
+                "description": "Update deck_group by groupId",
                 "schema": {
-                    "properties": {
-                        "GroupId": {
-                            "type": "integer"
-                        },
-                        "DeckId": {
-                            "type": "integer"
-                        },
-                        "id": {
-                            "type": "integer"
-                        }
-                    }
+                    "$ref": "#/definitions/Group_Deck"
                 },
                 "parameters": [
                     {
@@ -439,9 +429,11 @@
                         "name": "deckId",
                         "in": "body",
                         "required": "true",
-                        "type": "array",
-                        "items": {
-                            "type": "integer"
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
                         }
                     }
                 ],
@@ -605,6 +597,16 @@
                 },
                 "password": {
                     "type": "string"
+                }
+            }
+        },
+        "Group_Deck": {
+            "properties": {
+                "GroupId": {
+                    "type": "integer"
+                },
+                "DeckId": {
+                    "type": "integer"
                 }
             }
         },

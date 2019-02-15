@@ -29,7 +29,7 @@ createMiddleware(swaggerFilePath, app, (err, middleware) => {
   app.use(middleware.metadata());
   app.use(middleware.CORS());
   app.use(middleware.files());
-  //app.use(middleware.parseRequest());
+  app.use(middleware.parseRequest());
   app.use(middleware.validateRequest());
   //app.use(auth);
   app.use('/decks/:deckId/cards', deckCards);
