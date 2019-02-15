@@ -335,6 +335,14 @@
         "/groups/{groupId}/users": {
             "get": {
                 "description": "Show users by groupId",
+                "parameters": [
+                    {
+                        "name": "groupId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": ""
@@ -433,19 +441,33 @@
         "/decks/{deckId}/cards": {
             "get": {
                 "description": "Show cards by deckId",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/deckId"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": ""
+                        "description": "Getting cards successful"
                     }
                 }
-            }
-        },
-        "/decks/{deckId}/groups": {
-            "get": {
-                "description": "Show groups by deckId",
+            },
+            "post": {
+                "description": "Post deckCards",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/deckId"
+                    },
+                    {
+                        "name": "cardId",
+                        "in": "body",
+                        "required": "true",
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": ""
+                        "description": "Posting successful"
                     }
                 }
             }
@@ -514,7 +536,11 @@
                 },
                 "role": {
                     "type": "string",
-                    "enum": ["admin", "contributor", "student"],
+                    "enum": [
+                        "admin",
+                        "contributor",
+                        "student"
+                    ],
                     "allowNull": false,
                     "notEmpty": true,
                     "defaultValue": null,
@@ -666,6 +692,12 @@
     "parameters": {
         "id": {
             "name": "id",
+            "in": "path",
+            "required": "true",
+            "type": "integer"
+        },
+        "deckId": {
+            "name": "deckId",
             "in": "path",
             "required": "true",
             "type": "integer"
