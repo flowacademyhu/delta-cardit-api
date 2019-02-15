@@ -28,10 +28,26 @@ groups.post('/', (req, res) => {
   models.Group.create({
     name: req.body.name
   }).then(group => {
-    return res.json(group);
-  }).catch(err => {
-    return res.status(400)
-      .json({ message: 'Failed to create group' });
+    const deckGroupPromises = [];
+    for (let i = 0; i < req.body.deckId.length; i++) {
+      const deckGroupPromise = models.Group_Deck.create({
+        DeckId: req.body.deckId[i],
+        GroupId: group.id
+      });
+
+      deckGroupPromises.push(deckGroupPromise);
+    }
+    Promise.all(deckGroupPromises)
+      .then(groupDecks => {
+        console.log(groupDecks);
+        group.dataValues.groupDecks = groupDecks;
+        res.status(200).json(group);
+      })
+      .catch(error => {
+        res.status(500).json({ error: error, message: 'Első catch' });
+      });
+  }).catch(error => {
+    res.status(500).json({ error: error, message: 'Második catch' });
   });
 });
 

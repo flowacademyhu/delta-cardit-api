@@ -345,7 +345,131 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": ""
+                        "description": "Show users by groupId"
+                    }
+                }
+            }
+        },
+        "/groups/{groupId}/decks": {
+            "get": {
+                "description": "Show decks by groupId",
+                "parameters": [
+                    {
+                        "name": "groupId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show decks by groupId"
+                    }
+                }
+            },
+            "post": {
+                "description": "Create groupDeck",
+                "schema": {
+                    "properties": {
+                        "GroupId": {
+                            "type": "integer"
+                        },
+                        "DeckId": {
+                            "type": "integer"
+                        },
+                        "id": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "groupId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "deckId",
+                        "in": "body",
+                        "required": "true",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Creating successful"
+                    }
+                }
+            }
+        },
+        "/groups/{groupId}/decks/{deckId}": {
+            "put": {
+                "description": "Update deck by groupId",
+                "schema": {
+                    "properties": {
+                        "GroupId": {
+                            "type": "integer"
+                        },
+                        "DeckId": {
+                            "type": "integer"
+                        },
+                        "id": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "groupId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "deckId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "deckId",
+                        "in": "body",
+                        "required": "true",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Update successful"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete deck by id",
+                "parameters": [
+                    {
+                        "name": "groupId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "deckId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete successful"
                     }
                 }
             }
@@ -552,7 +676,7 @@
                     }
                 },
                 "lastLogin": {
-                    "type": "date",
+                    "type": "string",
                     "isDate": true,
                     "defaultValue": "new Date()"
                 },
