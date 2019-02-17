@@ -8,16 +8,16 @@ const endpoints = {
     'GET /decks': ['admin', 'contributor', 'student'],
     'GET /cards': ['admin', 'contributor', 'student'],
     'GET /groups': ['admin', 'contributor'],
-    'GET /results': ['admin', 'contributor'],
+    //'GET /results': ['admin', 'contributor'],
     'GET /users/{id}': ['admin'],
     'PUT /users/{id}': ['admin'],
     'DELETE /users/{id}': ['admin'],
-    'GET /users/{userId}/results': ['admin'],
+    //'GET /users/{userId}/results': ['admin'],
     'POST /cards': ['admin', 'contributor'],
     'GET /cards/{id}': ['admin', 'contributor', 'student'],
     'PUT /cards/{id}': ['admin', 'contributor'],
     'DELETE /cards/{id}': ['admin', 'contributor'],
-    'GET /cards/{cardId}/results': ['admin', 'contributor'],
+    //'GET /cards/{cardId}/results': ['admin', 'contributor'],
     'GET /groups': ['admin', 'contributor'],
     'POST /groups': ['admin'],
     'GET /groups/{id}': ['admin', 'contributor'],
@@ -29,7 +29,16 @@ const endpoints = {
     'PUT /decks/{id}': ['admin', 'contributor'],
     'DELETE /decks/{id}': ['admin', 'contributor'],
     'GET /decks/{deckId}/cards': ['admin', 'contributor', 'student'],
-    'GET /decks/{deckId}/groups': ['admin', 'contributor']
+    'GET /decks/{deckId}/groups': ['admin', 'contributor'],
+    'GET /groups/{groupId}/decks': ['admin', 'contributor'],
+    'POST /groups/{groupId}/decks': ['admin', 'contributor'],
+    'DELETE /groups/{groupId}/decks/{deckId}': ['admin', 'contributor'],
+    'PUT /groups/{groupId}/decks/{deckId}': ['admin', 'contributor'],
+    'GET /cards/{cardId}/decks': ['admin', 'contributor'],
+    'POST /cards/{cardId}/decks': ['admin', 'contributor'],
+    'DELETE /cards/{cardId}/decks/{deckId}': ['admin', 'contributor'],
+    'PUT /cards/{cardId}/decks/{deckId}': ['admin', 'contributor']
+
 }
 
 module.exports = (req, res, next) => {

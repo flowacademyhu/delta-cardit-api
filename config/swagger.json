@@ -531,10 +531,7 @@
                         "schema": {
                             "properties": {
                                 "deckId": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "integer"
-                                    }
+                                    "type": "integer"
                                 }
                             }
                         }
