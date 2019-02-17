@@ -47,7 +47,7 @@ decks.put('/:id', (req, res) => {
       return res.json(deck);
     }).catch(err => {
       return res.status(400)
-        .json({ message: err.message });
+        .json({ error: err, message: err.message });
     });
 });
 

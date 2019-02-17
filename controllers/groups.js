@@ -55,7 +55,7 @@ groups.post('/', (req, res) => {
 groups.put('/:id', (req, res) => {
   models.Group.update(req.body, { where: { id: req.params.id } })
     .then(group => {
-      if (group === 0) {
+      if (group == 0) {
         throw new Error('Group with given id does not exist');
       }
       return res.json(group);

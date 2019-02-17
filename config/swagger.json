@@ -40,6 +40,9 @@
                     },
                     "400": {
                         "description": "Failed to create user"
+                    },
+                    "500": {
+                        "description": "Failed to hash password"
                     }
                 }
             }
@@ -67,6 +70,9 @@
                     },
                     "401": {
                         "description": "Auth failed"
+                    },
+                    "500": {
+                        "description": "Internal server error"
                     }
                 }
             }
@@ -110,6 +116,9 @@
                     },
                     "400": {
                         "description": "Failed to update user"
+                    },
+                    "500": {
+                        "description": "Failed to hash password"
                     }
                 }
             },
@@ -133,16 +142,6 @@
                 }
             }
         },
-        "/users/{userId}/results": {
-            "get": {
-                "description": "Show results by userId",
-                "responses": {
-                    "200": {
-                        "description": "Returns a list of results by userId."
-                    }
-                }
-            }
-        },
         "/cards": {
             "get": {
                 "description": "Index of cards",
@@ -157,6 +156,14 @@
                 "parameters": [
                     {
                         "$ref": "#/parameters/cardData"
+                    },
+                    {
+                        "name": "deckId",
+                        "in": "body",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
                     }
                 ],
                 "responses": {
@@ -166,7 +173,7 @@
                             "$ref": "#/definitions/Card"
                         }
                     },
-                    "400": {
+                    "500": {
                         "description": "Failed to create card"
                     }
                 }
@@ -174,7 +181,7 @@
         },
         "/cards/{id}": {
             "get": {
-                "description": "Show car by id",
+                "description": "Show card by id",
                 "parameters": [
                     {
                         "$ref": "#/parameters/id"
@@ -234,16 +241,6 @@
                 }
             }
         },
-        "/cards/{cardId}/results": {
-            "get": {
-                "description": "Show results by cardId",
-                "responses": {
-                    "200": {
-                        "description": ""
-                    }
-                }
-            }
-        },
         "/groups": {
             "get": {
                 "description": "Index of groups",
@@ -258,13 +255,21 @@
                 "parameters": [
                     {
                         "$ref": "#/parameters/groupData"
+                    },
+                    {
+                        "name": "deckId",
+                        "in": "body",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "New group created"
                     },
-                    "400": {
+                    "500": {
                         "description": "Failed to create group"
                     }
                 }
@@ -429,11 +434,9 @@
                         "name": "deckId",
                         "in": "body",
                         "required": "true",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "integer"
-                            }
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
                         }
                     }
                 ],
@@ -472,6 +475,9 @@
                 "responses": {
                     "200": {
                         "description": "Returns a list of decks"
+                    },
+                    "400": {
+                        "description": "Failed to show decks"
                     }
                 }
             },
@@ -486,7 +492,7 @@
                     "200": {
                         "description": "New deck created"
                     },
-                    "400": {
+                    "500": {
                         "description": "Failed to create deck"
                     }
                 }
@@ -567,25 +573,16 @@
                         "description": "Getting cards successful"
                     }
                 }
-            },
-            "post": {
-                "description": "Post deckCards",
+            }
+        },
+        "/decks/{deckId}/groups": {
+            "get": {
+                "description": "Show groups by deckId",
                 "parameters": [
                     {
                         "$ref": "#/parameters/deckId"
-                    },
-                    {
-                        "name": "cardId",
-                        "in": "body",
-                        "required": "true",
-                        "type": "integer"
                     }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Posting successful"
-                    }
-                }
+                ]
             }
         }
     },
