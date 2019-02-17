@@ -20,11 +20,11 @@ groupDecks.get('/', (req, res) => {
 });
 
 
-// CREATE DECKGROUPS
+// CREATE GROUPDECKS
 groupDecks.post('/', (req, res) => {
-  models.Group_Deck.create({
-    GroupId: req.params.groupId
-  }).then(groupDecks => {
+  //models.Group_Deck.create({
+    //GroupId: req.params.groupId
+  //}).then(groupDecks => {
     const deckGroupPromises = [];
     for (let i = 0; i < req.body.deckId.length; i++) {
       const deckGroupPromise = models.Group_Deck.create({
@@ -41,9 +41,9 @@ groupDecks.post('/', (req, res) => {
       .catch(error => {
         res.status(500).json({ error: error, message: 'Első catch' });
       });
-  }).catch(error => {
-    res.status(500).json({ error: error, message: 'Második catch' });
-  });
+  // }).catch(error => {
+  //   res.status(500).json({ error: error, message: 'Második catch' });
+  // });
 });
 
 // delete
@@ -53,7 +53,7 @@ groupDecks.delete('/:deckId', (req, res) => {
       DeckId: req.params.deckId }
   }).then(groupDecks => {
     if (!groupDecks) {
-      throw new Error('DeckGroups with given id does not exist');
+      throw new Error('GroupDeck with given id does not exist');
     }
     return res.json(groupDecks);
   }).catch(err => {
@@ -71,7 +71,7 @@ groupDecks.put('/:deckId', (req, res) => {
     DeckId: req.params.deckId } })
     .then(groupDecks => {
       if (groupDecks === 0) {
-        throw new Error('DeckCard with given id does not exist');
+        throw new Error('GroupDeck with given id does not exist');
       }
       return res.json(groupDecks);
     }).catch(err => {

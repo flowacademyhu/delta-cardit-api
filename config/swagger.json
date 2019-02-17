@@ -241,6 +241,110 @@
                 }
             }
         },
+        "/cards/{cardId}/decks": {
+            "get": {
+                "description": "Show decks by cardId",
+                "parameters": [
+                    {
+                        "name": "cardId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show decks by cardId"
+                    }
+                }
+            },
+            "post": {
+                "description": "Create cardDeck",
+                "parameters": [
+                    {
+                        "name": "cardId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "deckId",
+                        "in": "body",
+                        "required": "true",
+                        "schema": {
+                            "properties": {
+                                "deckId": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "/cards/{cardId}/decks/{deckId}": {
+            "put": {
+                "description": "Update cardDeck",
+                "parameters": [
+                    {
+                        "name": "cardId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "deckId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "deckId",
+                        "in": "body",
+                        "required": "true",
+                        "schema": {
+                            "$ref": "#/definitions/CardDeckRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Update successful"
+                    },
+                    "400": {
+                        "description": "CardDeck with given id does not exist"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete cardDeck",
+                "parameters": [
+                    {
+                        "name": "cardId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "deckId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete successful"
+                    },
+                    "400": {
+                        "description": "CardDeck with given id does not exist"
+                    }
+                }
+            }
+        },
         "/groups": {
             "get": {
                 "description": "Index of groups",
@@ -374,19 +478,6 @@
             },
             "post": {
                 "description": "Create groupDeck",
-                "schema": {
-                    "properties": {
-                        "GroupId": {
-                            "type": "integer"
-                        },
-                        "DeckId": {
-                            "type": "integer"
-                        },
-                        "id": {
-                            "type": "integer"
-                        }
-                    }
-                },
                 "parameters": [
                     {
                         "name": "groupId",
@@ -398,9 +489,15 @@
                         "name": "deckId",
                         "in": "body",
                         "required": "true",
-                        "type": "array",
-                        "items": {
-                            "type": "integer"
+                        "schema": {
+                            "properties": {
+                                "deckId": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
                         }
                     }
                 ],
@@ -414,9 +511,6 @@
         "/groups/{groupId}/decks/{deckId}": {
             "put": {
                 "description": "Update deck_group by groupId",
-                "schema": {
-                    "$ref": "#/definitions/Group_Deck"
-                },
                 "parameters": [
                     {
                         "name": "groupId",
@@ -434,9 +528,15 @@
                         "name": "deckId",
                         "in": "body",
                         "required": "true",
-                        "type": "array",
-                        "items": {
-                            "type": "integer"
+                        "schema": {
+                            "properties": {
+                                "deckId": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
                         }
                     }
                 ],
@@ -603,6 +703,13 @@
                     "type": "integer"
                 },
                 "DeckId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "CardDeckRequest": {
+            "properties": {
+                "deckId": {
                     "type": "integer"
                 }
             }

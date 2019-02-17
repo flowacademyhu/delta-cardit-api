@@ -10,11 +10,11 @@ cardDecks.get('/', (req, res) => {
     });
 });
 
-// CREATE DECKCARDS
+// CREATE CARDDECK
 cardDecks.post('/', (req, res) => {
-  models.Card_Deck.create({
-    CardId: req.params.cardId
-  }).then(cardDecks => {
+  //models.Card_Deck.create({
+    //CardId: req.params.cardId
+  //}).then(cardDecks => {
     const deckCardPromises = [];
     for (let i = 0; i < req.body.deckId.length; i++) {
       const deckCardPromise = models.Card_Deck.create({
@@ -31,9 +31,9 @@ cardDecks.post('/', (req, res) => {
       .catch(error => {
         res.status(500).json({ error: error, message: 'Első catch' });
       });
-  }).catch(error => {
-    res.status(500).json({ error: error, message: 'Második catch' });
-  });
+ // }).catch(error => {
+ //   res.status(500).json({ error: error, message: 'Második catch' });
+//  });
 });
 
 // delete
@@ -43,7 +43,7 @@ cardDecks.delete('/:deckId', (req, res) => {
       DeckId: req.params.deckId }
   }).then(cardDecks => {
     if (!cardDecks) {
-      throw new Error('DeckCards with given id does not exist');
+      throw new Error('CardDeck with given id does not exist');
     }
     return res.json(cardDecks);
   }).catch(err => {
@@ -60,11 +60,12 @@ cardDecks.put('/:deckId', (req, res) => {
     CardId: req.params.cardId,
     DeckId: req.params.deckId } })
     .then(cardDecks => {
-      if (cardDecks === 0) {
-        throw new Error('DeckCard with given id does not exist');
+      if (cardDecks == 0) {
+        throw new Error('CardDeck with given id does not exist');
       }
       return res.json(cardDecks);
     }).catch(err => {
+      console.log("ez pedig itt a req.body: ", req.body);
       return res.status(400)
         .json({ message: err.message });
     });
