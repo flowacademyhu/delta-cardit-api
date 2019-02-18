@@ -53,16 +53,18 @@ decks.put('/:id', (req, res) => {
 
 // DELETE
 decks.delete('/:id', (req, res) => {
-  models.Deck.destroy({
-    where: { id: req.params.id }
-  }).then(deck => {
-    if (!deck) {
-      throw new Error('Deck with given id does not exist');
-    }
-    return res.json(deck);
-  }).catch(err => {
-    return res.status(400).json({ message: err.message });
-  });
+    models.Card_Deck.destroy({where: {DeckId: req.params.id}});
+    models.Group_Deck.destroy({where: {DeckId: req.params.id}});
+    models.Deck.destroy({
+      where: { id: req.params.id }
+    }).then(deck => {
+      if (!deck) {
+        throw new Error('Deck with given id does not exist');
+      }
+      return res.json(deck);
+    }).catch(err => {
+      return res.status(400).json({ message: err.message });
+    });  
 });
 
 module.exports = decks;

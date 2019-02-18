@@ -70,6 +70,7 @@ cards.put('/:id', (req, res) => {
 
 // delete
 cards.delete('/:id', (req, res) => {
+  models.Card_Deck.destroy({where: {CardId: req.params.id}});
   models.Card.destroy({
     where: { id: req.params.id }
   }).then(card => {
