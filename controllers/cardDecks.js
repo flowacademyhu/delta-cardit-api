@@ -51,24 +51,6 @@ cardDecks.delete('/:deckId', (req, res) => {
   });
 });
 
-// update
-cardDecks.put('/:deckId', (req, res) => {
-  const params = {
-    DeckId: req.body.deckId
-  };
-  models.Card_Deck.update(params, { where: {
-    CardId: req.params.cardId,
-    DeckId: req.params.deckId } })
-    .then(cardDecks => {
-      if (cardDecks == 0) {
-        throw new Error('CardDeck with given id does not exist');
-      }
-      return res.json(cardDecks);
-    }).catch(err => {
-      console.log("ez pedig itt a req.body: ", req.body);
-      return res.status(400)
-        .json({ message: err.message });
-    });
-});
+
 
 module.exports = cardDecks;
