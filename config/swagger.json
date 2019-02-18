@@ -40,6 +40,9 @@
                     },
                     "400": {
                         "description": "Failed to create user"
+                    },
+                    "500": {
+                        "description": "Failed to hash password"
                     }
                 }
             }
@@ -67,6 +70,9 @@
                     },
                     "401": {
                         "description": "Auth failed"
+                    },
+                    "500": {
+                        "description": "Internal server error"
                     }
                 }
             }
@@ -110,6 +116,9 @@
                     },
                     "400": {
                         "description": "Failed to update user"
+                    },
+                    "500": {
+                        "description": "Failed to hash password"
                     }
                 }
             },
@@ -133,16 +142,6 @@
                 }
             }
         },
-        "/users/{userId}/results": {
-            "get": {
-                "description": "Show results by userId",
-                "responses": {
-                    "200": {
-                        "description": "Returns a list of results by userId."
-                    }
-                }
-            }
-        },
         "/cards": {
             "get": {
                 "description": "Index of cards",
@@ -157,6 +156,14 @@
                 "parameters": [
                     {
                         "$ref": "#/parameters/cardData"
+                    },
+                    {
+                        "name": "deckId",
+                        "in": "body",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
                     }
                 ],
                 "responses": {
@@ -166,7 +173,7 @@
                             "$ref": "#/definitions/Card"
                         }
                     },
-                    "400": {
+                    "500": {
                         "description": "Failed to create card"
                     }
                 }
@@ -174,7 +181,7 @@
         },
         "/cards/{id}": {
             "get": {
-                "description": "Show car by id",
+                "description": "Show card by id",
                 "parameters": [
                     {
                         "$ref": "#/parameters/id"
@@ -234,12 +241,106 @@
                 }
             }
         },
-        "/cards/{cardId}/results": {
+        "/cards/{cardId}/decks": {
             "get": {
-                "description": "Show results by cardId",
+                "description": "Show decks by cardId",
+                "parameters": [
+                    {
+                        "name": "cardId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": ""
+                        "description": "Show decks by cardId"
+                    }
+                }
+            },
+            "post": {
+                "description": "Create cardDeck",
+                "parameters": [
+                    {
+                        "name": "cardId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "deckId",
+                        "in": "body",
+                        "required": "true",
+                        "schema": {
+                            "properties": {
+                                "deckId": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "/cards/{cardId}/decks/{deckId}": {
+            "put": {
+                "description": "Update cardDeck",
+                "parameters": [
+                    {
+                        "name": "cardId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "deckId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "deckId",
+                        "in": "body",
+                        "required": "true",
+                        "schema": {
+                            "$ref": "#/definitions/CardDeckRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Update successful"
+                    },
+                    "400": {
+                        "description": "CardDeck with given id does not exist"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete cardDeck",
+                "parameters": [
+                    {
+                        "name": "cardId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "deckId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete successful"
+                    },
+                    "400": {
+                        "description": "CardDeck with given id does not exist"
                     }
                 }
             }
@@ -258,13 +359,21 @@
                 "parameters": [
                     {
                         "$ref": "#/parameters/groupData"
+                    },
+                    {
+                        "name": "deckId",
+                        "in": "body",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "New group created"
                     },
-                    "400": {
+                    "500": {
                         "description": "Failed to create group"
                     }
                 }
@@ -335,9 +444,124 @@
         "/groups/{groupId}/users": {
             "get": {
                 "description": "Show users by groupId",
+                "parameters": [
+                    {
+                        "name": "groupId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": ""
+                        "description": "Show users by groupId"
+                    }
+                }
+            }
+        },
+        "/groups/{groupId}/decks": {
+            "get": {
+                "description": "Show decks by groupId",
+                "parameters": [
+                    {
+                        "name": "groupId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show decks by groupId"
+                    }
+                }
+            },
+            "post": {
+                "description": "Create groupDeck",
+                "parameters": [
+                    {
+                        "name": "groupId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "deckId",
+                        "in": "body",
+                        "required": "true",
+                        "schema": {
+                            "properties": {
+                                "deckId": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Creating successful"
+                    }
+                }
+            }
+        },
+        "/groups/{groupId}/decks/{deckId}": {
+            "put": {
+                "description": "Update deck_group by groupId",
+                "parameters": [
+                    {
+                        "name": "groupId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "deckId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "deckId",
+                        "in": "body",
+                        "required": "true",
+                        "schema": {
+                            "properties": {
+                                "deckId": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Update successful"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete deck by id",
+                "parameters": [
+                    {
+                        "name": "groupId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "deckId",
+                        "in": "path",
+                        "required": "true",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete successful"
                     }
                 }
             }
@@ -348,6 +572,9 @@
                 "responses": {
                     "200": {
                         "description": "Returns a list of decks"
+                    },
+                    "400": {
+                        "description": "Failed to show decks"
                     }
                 }
             },
@@ -362,7 +589,7 @@
                     "200": {
                         "description": "New deck created"
                     },
-                    "400": {
+                    "500": {
                         "description": "Failed to create deck"
                     }
                 }
@@ -433,9 +660,14 @@
         "/decks/{deckId}/cards": {
             "get": {
                 "description": "Show cards by deckId",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/deckId"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": ""
+                        "description": "Getting cards successful"
                     }
                 }
             }
@@ -443,11 +675,11 @@
         "/decks/{deckId}/groups": {
             "get": {
                 "description": "Show groups by deckId",
-                "responses": {
-                    "200": {
-                        "description": ""
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/deckId"
                     }
-                }
+                ]
             }
         }
     },
@@ -459,6 +691,23 @@
                 },
                 "password": {
                     "type": "string"
+                }
+            }
+        },
+        "Group_Deck": {
+            "properties": {
+                "GroupId": {
+                    "type": "integer"
+                },
+                "DeckId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "CardDeckRequest": {
+            "properties": {
+                "deckId": {
+                    "type": "integer"
                 }
             }
         },
@@ -514,7 +763,11 @@
                 },
                 "role": {
                     "type": "string",
-                    "enum": ["admin", "contributor", "student"],
+                    "enum": [
+                        "admin",
+                        "contributor",
+                        "student"
+                    ],
                     "allowNull": false,
                     "notEmpty": true,
                     "defaultValue": null,
@@ -526,7 +779,7 @@
                     }
                 },
                 "lastLogin": {
-                    "type": "date",
+                    "type": "string",
                     "isDate": true,
                     "defaultValue": "new Date()"
                 },
@@ -666,6 +919,12 @@
     "parameters": {
         "id": {
             "name": "id",
+            "in": "path",
+            "required": "true",
+            "type": "integer"
+        },
+        "deckId": {
+            "name": "deckId",
             "in": "path",
             "required": "true",
             "type": "integer"

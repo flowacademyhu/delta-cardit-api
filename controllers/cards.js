@@ -55,15 +55,9 @@ cards.post('/', (req, res) => {
 
 // update
 cards.put('/:id', (req, res) => {
-  const params = {
-    question: req.body.question,
-    answer: req.body.answer,
-    difficulty: req.body.difficulty,
-    type: req.body.type
-  };
-  models.Card.update(params, { where: { id: req.params.id } })
+  models.Card.update(req.body, { where: { id: req.params.id } })
     .then(card => {
-      if (card === 0) {
+      if (card == 0) {
         throw new Error('Card with given id does not exist');
       }
       return res.json(card);
@@ -75,6 +69,7 @@ cards.put('/:id', (req, res) => {
 
 // delete
 cards.delete('/:id', (req, res) => {
+  models.Card_Deck.destroy({ where: { CardId: req.params.id } });
   models.Card.destroy({
     where: { id: req.params.id }
   }).then(card => {

@@ -49,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     GroupId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       defaultValue: 0
     }
   }, {});

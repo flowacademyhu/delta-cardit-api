@@ -30,26 +30,9 @@ decks.post('/', (req, res) => {
   models.Deck.create({
     subject: req.body.subject
   }).then(deck => {
-    const deckGroupPromises = [];
-    for (let i = 0; i < req.body.groupId.length; i++) {
-      const deckGroupPromise = models.Group_Deck.create({
-        DeckId: deck.id,
-        GroupId: req.body.groupId[i]
-      });
-
-      deckGroupPromises.push(deckGroupPromise);
-    }
-    Promise.all(deckGroupPromises)
-      .then(deckGroups => {
-        console.log(deckGroups);
-        deck.dataValues.deckGroups = deckGroups;
-        res.status(200).json(deck);
-      })
-      .catch(error => {
-        res.status(500).json({ error: error, message: 'Első catch' });
-      });
+    res.status(200).json(deck);
   }).catch(error => {
-    res.status(500).json({ error: error, message: 'Második catch' });
+    res.status(500).json({ error: error, message: error.message });
   });
 });
 
@@ -64,22 +47,24 @@ decks.put('/:id', (req, res) => {
       return res.json(deck);
     }).catch(err => {
       return res.status(400)
-        .json({ message: err.message });
+        .json({ error: err, message: err.message });
     });
 });
 
 // DELETE
 decks.delete('/:id', (req, res) => {
-  models.Deck.destroy({
-    where: { id: req.params.id }
-  }).then(deck => {
-    if (!deck) {
-      throw new Error('Deck with given id does not exist');
-    }
-    return res.json(deck);
-  }).catch(err => {
-    return res.status(400).json({ message: err.message });
-  });
+    models.Card_Deck.destroy({where: {DeckId: req.params.id}});
+    models.Group_Deck.destroy({where: {DeckId: req.params.id}});
+    models.Deck.destroy({
+      where: { id: req.params.id }
+    }).then(deck => {
+      if (!deck) {
+        throw new Error('Deck with given id does not exist');
+      }
+      return res.json(deck);
+    }).catch(err => {
+      return res.status(400).json({ message: err.message });
+    });  
 });
 
 module.exports = decks;
