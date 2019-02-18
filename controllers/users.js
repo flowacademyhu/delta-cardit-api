@@ -125,6 +125,34 @@ users.put('/:id', (req, res) => {
   }
 });
 
+// UPDATE OWN PASSWORD
+users.put('/:id/me', (req, res) => {
+  models.User.findById(req.params.id)
+    .then(user => {
+      if (user.id === req.user.id) {
+        bcrypt.hash(req.body.password, 10, (err, hash) => {
+          if (err) {
+            return res.status(500).json({
+              error: err
+            })
+          } else {
+            req.body.passwordHash = hash;
+            models.User.update(
+              { passwordHash: req.body.passwordHash, updatedAt: new Date() },
+              { where: { id: req.params.id } })
+              .then(user => {
+                res.json(user)
+              }).catch(err => {
+                return res.status(400).json({ message: "Failed to update password" });
+              });
+          }
+        });
+      } else {
+        res.status(401).json({message: "Unauthorized"});
+      }
+    })
+});
+
 // DELETE
 users.delete('/:id', (req, res) => {
   models.User.destroy({
@@ -155,7 +183,7 @@ const sendMail = (password, email) => {
     if (error) {
       console.log("error: ", error);
     }
-    console.log("body" , body);
+    console.log("body", body);
   });
 };
 
