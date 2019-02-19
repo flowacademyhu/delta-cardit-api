@@ -10,13 +10,17 @@
     },
     "paths": {
         "/users/{id}/me": {
+            "get": {
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/id"
+                    }
+                ]
+            },
             "put": {
                 "parameters": [
                     {
-                        "name": "id",
-                        "in": "path",
-                        "type": "integer",
-                        "required": "true"
+                        "$ref": "#/parameters/id"
                     },
                     {
                         "name": "body",
