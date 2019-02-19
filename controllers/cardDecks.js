@@ -18,11 +18,10 @@ cardDecks.post('/', (req, res) => {
   }).then(cardDecks => {
     res.status(200).json(cardDecks);
   })
-  .catch(error => {
-    res.status(500).json({ error: error, message: error.message });
-  });
+    .catch(error => {
+      res.status(500).json({ error: error, message: error.message });
+    });
 });
-    
 
 // delete
 cardDecks.delete('/:deckId', (req, res) => {
@@ -40,7 +39,5 @@ cardDecks.delete('/:deckId', (req, res) => {
     return res.status(400).json({ message: err.message });
   });
 });
-
-
 
 module.exports = cardDecks;

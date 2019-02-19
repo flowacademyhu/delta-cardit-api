@@ -12,13 +12,12 @@ groupDecks.get('/', (req, res) => {
           const deckPromise = models.Deck.findOne({ where: { id: deck.dataValues.DeckId } });
           deckPromises.push(deckPromise);
         }
-      })
+      });
       Promise.all(deckPromises).then(decks => {
-        res.status(200).json(decks)
+        res.status(200).json(decks);
       });
     });
 });
-
 
 // CREATE GROUPDECKS
 groupDecks.post('/', (req, res) => {

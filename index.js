@@ -18,10 +18,8 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerFilePath = './config/swagger.json';
 const auth = require('./controllers/middleware/auth');
 
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
 
 createMiddleware(swaggerFilePath, app, (err, middleware) => {
   if (err) return console.log(err);
@@ -29,7 +27,7 @@ createMiddleware(swaggerFilePath, app, (err, middleware) => {
   app.use(middleware.metadata());
   app.use(middleware.CORS());
   app.use(middleware.files());
-  app.use(middleware.parseRequest());
+  // app.use(middleware.parseRequest());
   app.use(middleware.validateRequest());
   app.use(auth);
   app.use('/decks/:deckId/cards', deckCards);

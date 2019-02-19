@@ -9,13 +9,13 @@ deckCards.get('/', (req, res) => {
       let cardPromises = [];
       card_decks.forEach(card => {
         if (card.dataValues.CardId) {
-          const cardPromise = models.Card.findOne({where: {id: card.dataValues.CardId}});
+          const cardPromise = models.Card.findOne({ where: { id: card.dataValues.CardId } });
           cardPromises.push(cardPromise);
-        }      
-    })
-    Promise.all(cardPromises).then(cards => {
-      res.status(200).json(cards)
-    });
+        }
+      });
+      Promise.all(cardPromises).then(cards => {
+        res.status(200).json(cards);
+      });
     });
 });
 
