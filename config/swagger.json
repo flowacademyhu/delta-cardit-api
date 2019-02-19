@@ -9,34 +9,6 @@
         "version": "1.0"
     },
     "paths": {
-        "/users/{id}/me": {
-            "get": {
-                "parameters": [
-                    {
-                        "$ref": "#/parameters/id"
-                    }
-                ]
-            },
-            "put": {
-                "parameters": [
-                    {
-                        "$ref": "#/parameters/id"
-                    },
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "schema": {
-                            "properties": {
-                                "password": {
-                                    "type": "string",
-                                    "required": "true"
-                                }
-                            }
-                        }
-                    }
-                ]
-            }
-        },
         "/users": {
             "get": {
                 "description": "Index of users",
@@ -105,14 +77,20 @@
                 }
             }
         },
-        "users/login/password": {
-            "post": {
+        "/users/login/password": {
+            "put": {
                 "parameters": [
                     {
                         "name": "email",
                         "in": "body",
-                        "type": "string",
-                        "required": "true"
+                        "schema": {
+                            "properties": {
+                                "email": {
+                                    "type": "string",
+                                    "required": "true"
+                                }
+                            }
+                        }
                     }
                 ]
             }
@@ -180,6 +158,34 @@
                         "description": "User with given id does not exist."
                     }
                 }
+            }
+        },
+        "/users/{id}/me": {
+            "get": {
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/id"
+                    }
+                ]
+            },
+            "put": {
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/id"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "properties": {
+                                "password": {
+                                    "type": "string",
+                                    "required": "true"
+                                }
+                            }
+                        }
+                    }
+                ]
             }
         },
         "/cards": {

@@ -7,6 +7,132 @@ const config = require('../config/config');
 const mailgunConfig = require('../config/mailgun.json');
 const generator = require('generate-password');
 
+// INDEX
+users.get('/', (req, res) => {
+  models.User.findAll()
+    .then(users => {
+      res.json(users);
+    }).catch(function (err) {
+      return res.status(400).json({ message: 'Failed to show users' });
+    });
+});
+
+// CREATE
+users.post('/', (req, res) => {
+  bcrypt.hash(req.body.password, 10, (err, hash) => {
+    if (err) {
+      return res.status(500).json({
+        error: err
+      });
+    } else {
+      models.User.create({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        passwordHash: hash,
+        role: req.body.role,
+        GroupId: req.body.GroupId
+      }).then(user => {
+        sendMail(req.body.password, req.body.email);
+        return res.json(user);
+      }).catch(err => {
+        return res.status(400)
+          .json({ message: 'Failed to create user' });
+      });
+    }
+  });
+});
+
+// SHOW
+users.get('/:id', (req, res) => {
+  models.User.findById(req.params.id)
+    .then(user => {
+      if (!user) {
+        throw new Error('User with given id does not exist');
+      }
+      return res.json(user);
+    }).catch(err => {
+      return res.status(400).json({ message: err.message });
+    });
+});
+
+// UPDATE
+users.put('/:id', (req, res) => {
+  if (req.body.password) {
+    bcrypt.hash(req.body.password, 10, (err, hash) => {
+      if (err) {
+        return res.status(500).json({
+          error: err
+        });
+      } else {
+        req.body.passwordHash = hash;
+        models.User.update(req.body,
+          {
+            where: { id: req.params.id }
+          })
+          .then(user => {
+            res.json(user);
+          }).catch(err => {
+            return res.status(400).json({ message: 'Failed to update user' });
+          });
+      }
+    });
+  } else {
+    models.User.update(req.body,
+      {
+        where: { id: req.params.id }
+      })
+      .then(user => {
+        res.json(user);
+      }).catch(err => {
+        return res.status(400).json({ message: 'Failed to update user' });
+      });
+  }
+});
+
+
+// DELETE
+users.delete('/:id', (req, res) => {
+  models.User.destroy({
+    where: { id: req.params.id }
+  }).then(user => {
+    if (!user) {
+      throw new Error('User with given id does not exist');
+    }
+    return res.json(user);
+  }).catch(err => {
+    return res.status(400).json({ message: err.message });
+  });
+});
+
+// UPDATE OWN PASSWORD
+users.put('/:id/me', (req, res) => {
+  models.User.findById(req.params.id)
+    .then(user => {
+      if (user.id === req.user.id) {
+        bcrypt.hash(req.body.password, 10, (err, hash) => {
+          if (err) {
+            return res.status(500).json({
+              error: err
+            });
+          } else {
+            req.body.passwordHash = hash;
+            models.User.update(
+              { passwordHash: req.body.passwordHash, updatedAt: new Date() },
+              { where: { id: req.params.id } })
+              .then(user => {
+                res.json(user);
+              }).catch(err => {
+                return res.status(400).json({ message: 'Failed to update password' });
+              });
+          }
+        });
+      } else {
+        res.status(401).json({ message: 'Unauthorized' });
+      }
+    });
+});
+
 // LOGIN
 users.post('/login', (req, res) => {
   models.User.findOne({ where: { email: req.body.email } })
@@ -58,144 +184,16 @@ users.put('/login/password', (req, res) => {
       models.User.update({
         passwordHash: hash
       },
-      {
-        where: { email: req.body.email }
-      })
+        {
+          where: { email: req.body.email }
+        })
         .then(user => {
           sendMail(password, req.body.email);
-          return res.json(user)
-            .then(user => {
-              res.json(user);
-            }).catch(err => {
-              return res.status(400).json({ message: 'Failed to update password' });
-            });
-        });
-    }
-  });
-
-  // INDEX
-  users.get('/', (req, res) => {
-    models.User.findAll()
-      .then(users => {
-        res.json(users);
-      }).catch(function (err) {
-        return res.status(400).json({ message: 'Failed to show users' });
-      });
-  });
-
-  // SHOW
-  users.get('/:id', (req, res) => {
-    models.User.findById(req.params.id)
-      .then(user => {
-        if (!user) {
-          throw new Error('User with given id does not exist');
-        }
-        return res.json(user);
-      }).catch(err => {
-        return res.status(400).json({ message: err.message });
-      });
-  });
-
-  // CREATE
-  users.post('/', (req, res) => {
-    bcrypt.hash(req.body.password, 10, (err, hash) => {
-      if (err) {
-        return res.status(500).json({
-          error: err
-        });
-      } else {
-        models.User.create({
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          email: req.body.email,
-          passwordHash: hash,
-          role: req.body.role,
-          GroupId: req.body.GroupId
-        }).then(user => {
-          sendMail(req.body.password, req.body.email);
           return res.json(user);
         }).catch(err => {
-          return res.status(400)
-            .json({ message: 'Failed to create user' });
-        });
-      }
-    });
-  });
-});
-
-// UPDATE
-users.put('/:id', (req, res) => {
-  if (req.body.password) {
-    bcrypt.hash(req.body.password, 10, (err, hash) => {
-      if (err) {
-        return res.status(500).json({
-          error: err
-        });
-      } else {
-        req.body.passwordHash = hash;
-        models.User.update(req.body,
-          {
-            where: { id: req.params.id }
-          })
-          .then(user => {
-            res.json(user);
-          }).catch(err => {
-            return res.status(400).json({ message: 'Failed to update user' });
-          });
-      }
-    });
-  } else {
-    models.User.update(req.body,
-      {
-        where: { id: req.params.id }
-      })
-      .then(user => {
-        res.json(user);
-      }).catch(err => {
-        return res.status(400).json({ message: 'Failed to update user' });
-      });
-  }
-});
-
-// UPDATE OWN PASSWORD
-users.put('/:id/me', (req, res) => {
-  models.User.findById(req.params.id)
-    .then(user => {
-      if (user.id === req.user.id) {
-        bcrypt.hash(req.body.password, 10, (err, hash) => {
-          if (err) {
-            return res.status(500).json({
-              error: err
-            });
-          } else {
-            req.body.passwordHash = hash;
-            models.User.update(
-              { passwordHash: req.body.passwordHash, updatedAt: new Date() },
-              { where: { id: req.params.id } })
-              .then(user => {
-                res.json(user);
-              }).catch(err => {
-                return res.status(400).json({ message: 'Failed to update password' });
-              });
-          }
-        });
-      } else {
-        res.status(401).json({ message: 'Unauthorized' });
-      }
-    });
-});
-
-// DELETE
-users.delete('/:id', (req, res) => {
-  models.User.destroy({
-    where: { id: req.params.id }
-  }).then(user => {
-    if (!user) {
-      throw new Error('User with given id does not exist');
+          return res.status(400).json({ message: err.message });
+        });;
     }
-    return res.json(user);
-  }).catch(err => {
-    return res.status(400).json({ message: err.message });
   });
 });
 
