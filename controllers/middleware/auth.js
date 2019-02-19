@@ -32,12 +32,12 @@ const endpoints = {
   'GET /groups/{groupId}/decks': ['admin', 'contributor'],
   'POST /groups/{groupId}/decks': ['admin', 'contributor'],
   'DELETE /groups/{groupId}/decks/{deckId}': ['admin', 'contributor'],
-  'PUT /groups/{groupId}/decks/{deckId}': ['admin', 'contributor'],
   'GET /cards/{cardId}/decks': ['admin', 'contributor'],
   'POST /cards/{cardId}/decks': ['admin', 'contributor'],
   'DELETE /cards/{cardId}/decks/{deckId}': ['admin', 'contributor'],
-  'PUT /users/{id}/me': ['admin', 'contributor', 'student']
-
+  'PUT /users/{id}/me': ['admin', 'contributor', 'student'],
+  'GET /users/{id}/me': ['admin', 'contributor', 'student'],
+  'POST /users/login/password': ['admin', 'contributor', 'student']
 };
 
 module.exports = (req, res, next) => {
