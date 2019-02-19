@@ -184,10 +184,7 @@
                     {
                         "name": "deckId",
                         "in": "body",
-                        "type": "array",
-                        "items": {
-                            "type": "integer"
-                        }
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -387,10 +384,7 @@
                     {
                         "name": "deckId",
                         "in": "body",
-                        "type": "array",
-                        "items": {
-                            "type": "integer"
-                        }
+                        "type": "integer"
                     }
                 ],
                 "responses": {

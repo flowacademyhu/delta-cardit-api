@@ -30,28 +30,24 @@ cards.post('/', (req, res) => {
     difficulty: req.body.difficulty,
     type: req.body.type
   }).then(card => {
-    const deckCardPromises = [];
-    for (let i = 0; i < req.body.deckId.length; i++) {
-      const deckCardPromise = models.Card_Deck.create({
+    if (req.body.deckId) {
+      models.Card_Deck.create({
         CardId: card.id,
-        DeckId: req.body.deckId[i]
-      });
-
-      deckCardPromises.push(deckCardPromise);
-    }
-    Promise.all(deckCardPromises)
-      .then(deckCards => {
-        console.log(deckCards);
-        card.dataValues.deckCards = deckCards;
+        DeckId: req.body.deckId
+      }).then(deckCard => {
+        card.dataValues.deckCard = deckCard;
         res.status(200).json(card);
+      }).catch(error => {
+        res.status(500).json({ error: error, message: error.message });
       })
-      .catch(error => {
-        res.status(500).json({ error: error, message: 'Első catch' });
-      });
+    } else {
+      res.status(200).json(card);
+    }
   }).catch(error => {
-    res.status(500).json({ error: error, message: 'Második catch' });
+    res.status(500).json({ error: error, message: error.message });
   });
 });
+
 
 // update
 cards.put('/:id', (req, res) => {

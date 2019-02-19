@@ -36,8 +36,8 @@ const endpoints = {
   'GET /cards/{cardId}/decks': ['admin', 'contributor'],
   'POST /cards/{cardId}/decks': ['admin', 'contributor'],
   'DELETE /cards/{cardId}/decks/{deckId}': ['admin', 'contributor'],
-  'PUT /cards/{cardId}/decks/{deckId}': ['admin', 'contributor'],
   'PUT /users/{id}/me': ['admin', 'contributor', 'student']
+
 };
 
 module.exports = (req, res, next) => {
