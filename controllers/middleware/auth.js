@@ -37,7 +37,8 @@ const endpoints = {
     'POST /cards/{cardId}/decks': ['admin', 'contributor'],
     'DELETE /cards/{cardId}/decks/{deckId}': ['admin', 'contributor'],
     'PUT /users/{id}/me': ['admin', 'contributor', 'student'],
-    'GET /users/{id}/me': ['admin', 'contributor', 'student']
+    'GET /users/{id}/me': ['admin', 'contributor', 'student'],
+    'POST /users/login/password': ['anonymus']
 
 }
 

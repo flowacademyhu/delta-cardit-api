@@ -105,6 +105,18 @@
                 }
             }
         },
+        "users/login/password": {
+            "post": {
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "body",
+                        "type": "string",
+                        "required": "true"
+                    }
+                ]
+            }
+        },
         "/users/{id}": {
             "get": {
                 "description": "Show user by id",
