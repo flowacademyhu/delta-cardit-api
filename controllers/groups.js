@@ -28,26 +28,21 @@ groups.post('/', (req, res) => {
   models.Group.create({
     name: req.body.name
   }).then(group => {
-    const deckGroupPromises = [];
-    for (let i = 0; i < req.body.deckId.length; i++) {
-      const deckGroupPromise = models.Group_Deck.create({
-        DeckId: req.body.deckId[i],
-        GroupId: group.id
-      });
-
-      deckGroupPromises.push(deckGroupPromise);
-    }
-    Promise.all(deckGroupPromises)
-      .then(groupDecks => {
-        console.log(groupDecks);
-        group.dataValues.groupDecks = groupDecks;
+    if (req.body.deckId) {
+      models.Group_Deck.create({
+        GroupId: group.id,
+        DeckId: req.body.deckId
+      }).then(deckGroup => {
+        group.dataValues.deckGroup = deckGroup;
         res.status(200).json(group);
+      }).catch(error => {
+        res.status(500).json({ error: error, message: error.message });
       })
-      .catch(error => {
-        res.status(500).json({ error: error, message: 'Első catch' });
-      });
+    } else {
+      res.status(200).json(group);
+    }
   }).catch(error => {
-    res.status(500).json({ error: error, message: 'Második catch' });
+    res.status(500).json({ error: error, message: error.message });
   });
 });
 

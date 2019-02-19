@@ -31,7 +31,7 @@ createMiddleware(swaggerFilePath, app, (err, middleware) => {
   app.use(middleware.files());
   app.use(middleware.parseRequest());
   app.use(middleware.validateRequest());
-  app.use(auth);
+  //app.use(auth);
   app.use('/decks/:deckId/cards', deckCards);
   app.use('/users', users);
   app.use('/cards', cards);
