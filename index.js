@@ -23,13 +23,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 createMiddleware(swaggerFilePath, app, (err, middleware) => {
   if (err) return console.log(err);
-  // app.use('/docs', swaggerUi.serve, swaggerUi.setup(require(swaggerFilePath)));
-  // app.use(middleware.metadata());
-  // app.use(middleware.CORS());
-  // app.use(middleware.files());
+  app.use('/docs', swaggerUi.serve, swaggerUi.setup(require(swaggerFilePath)));
+  app.use(middleware.metadata());
+  app.use(middleware.CORS());
+  app.use(middleware.files());
   // app.use(middleware.parseRequest());
   app.use(middleware.validateRequest());
-  // app.use(auth);
+  app.use(auth);
   app.use('/decks/:deckId/cards', deckCards);
   app.use('/users', users);
   app.use('/cards', cards);
