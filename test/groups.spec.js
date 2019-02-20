@@ -4,7 +4,7 @@ const models = require('../models');
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 
-describe('Cardit API decks tests', function () {
+describe('Cardit API groups tests', function () {
     this.timeout(10000);
     before(function (done) {
         models.sequelize.sync({ force: true }).then(() => {
@@ -32,10 +32,10 @@ describe('Cardit API decks tests', function () {
                         config.JWT_SECRET,
                         { expiresIn: '1h' });
                     console.log('Admin user created');
-                }).then(() => {
+                }).then(()=> {
                     models.Deck.create(
                         {
-                            subject: 'Subject 1'
+                            subject: 'Subject1'
                         }
                     ).then(() => {
                         done();
@@ -45,23 +45,21 @@ describe('Cardit API decks tests', function () {
         });
     });
 
-    
-    describe('GET /decks', function () {
-        it('respond with json containing a list of all decks', function (done) {
+    describe('GET /groups', function () {
+        it('respond with json containing a list of all groups', function (done) {
             request(app)
-                .get('/decks')
+                .get('/groups')
                 .set('Accept', 'application/json')
                 .set('Authorization', token)
                 .expect('Content-Type', /json/)
                 .expect(200, done);
         });
     });
-    
 
-    describe('GET /decks/:id', function () {
-        it('respond with json deck not found', function (done) {
+    describe('GET /groups/:id', function () {
+        it('respond with json group not found', function (done) {
             request(app)
-                .get('/decks/11')
+                .get('/groups/11')
                 .set('Accept', 'application/json')
                 .set('Authorization', token)
                 .expect(400)
@@ -72,10 +70,10 @@ describe('Cardit API decks tests', function () {
         });
     });
 
-    describe('GET /decks/:id', function () {
-        it('respond with json deck found', function (done) {
+    describe('GET /groups/:id', function () {
+        it('respond with json group found', function (done) {
             request(app)
-                .get('/users/1')
+                .get('/groups/1')
                 .set('Accept', 'application/json')
                 .set('Authorization', token)
                 .expect(200)
@@ -86,16 +84,16 @@ describe('Cardit API decks tests', function () {
         });
     });
 
-    describe('POST /decks', function () {
-        it('create new deck', function (done) {
-            let subject = 'Subject 2'
+    describe('POST /groups', function () {
+        it('create new group', function (done) {
+            let name = 'name2';
+            let deckId = 1;         
       
-
             request(app)
-                .post('/decks')
+                .post('/groups')
                 .set('Accept', 'application/json')
                 .set('Authorization', token)
-                .send({subject})
+                .send({name, deckId})
                 .expect(200)
                 .end((err) => {
                     if (err) return done(err);
@@ -105,15 +103,15 @@ describe('Cardit API decks tests', function () {
         });
     });
 
-    describe('PUT /decks/:id', function () {
-        it('updates deck by id', function (done) {
-            let subject = 'New subject'
+    describe('PUT /groups/:id', function () {
+        it('updates group by id', function (done) {
+            let name = 'Name2'
 
             request(app)
-                .put('/decks/1')
+                .put('/groups/1')
                 .set('Accept', 'application/json')
                 .set('Authorization', token)
-                .send({subject})
+                .send({name})
                 .expect(200)
                 .end((err) => {
                     if (err) return done(err);
@@ -122,10 +120,10 @@ describe('Cardit API decks tests', function () {
         });
     });
 
-    describe('DELETE /decks/:id', function () {
-        it('deletes deck by id', function (done) {
+    describe('DELETE /groups/:id', function () {
+        it('deletes group by id', function (done) {
             request(app)
-                .delete('/decks/1')
+                .delete('/groups/1')
                 .set('Accept', 'application/json')
                 .set('Authorization', token)
                 .expect(200)
