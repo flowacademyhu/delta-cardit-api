@@ -4,7 +4,7 @@ const models = require('../models');
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 
-describe('Cardit API users tests', function () {
+describe('Cardit API cards tests', function () {
     this.timeout(10000);
     before(function (done) {
         models.sequelize.sync({ force: true }).then(() => {
@@ -32,29 +32,75 @@ describe('Cardit API users tests', function () {
                         config.JWT_SECRET,
                         { expiresIn: '1h' });
                     console.log('Admin user created');
-                    done();
+                }).then(()=> {
+                    models.Card.create(
+                        {
+                            question: 'Question1',
+                            answer: 'Answer1',
+                            type: 'szabadszavas',
+                            difficulty: 1
+                        }
+                    ).then(() => {
+                        done();
+                    })
                 });
             });
         });
     });
 
-    describe('GET /users', function () {
-        it('respond with json containing a list of all users', function (done) {
+    describe('GET /cards', function () {
+        it('respond with json containing a list of all cards', function (done) {
             request(app)
-                .get('/users')
+                .get('/cards')
                 .set('Accept', 'application/json')
+                .set('Authorization', token)
                 .expect('Content-Type', /json/)
                 .expect(200, done);
         });
     });
 
-    describe('GET /users/:id', function () {
-        it('respond with json user not found', function (done) {
+    describe('GET /cards/:id', function () {
+        it('respond with json containing one card', function (done) {
             request(app)
-                .get('/users/11')
+                .get('/cards/1')
                 .set('Accept', 'application/json')
                 .set('Authorization', token)
-                .expect(400)
+                .expect('Content-Type', /json/)
+                .expect(200, done);
+        });
+    });
+
+    describe('POST /cards', function () {
+        it('create new card', function (done) {
+            let question = 'Question2';
+            let answer = 'Answer2';
+            let type = 'szabadszavas';
+            let difficulty = 2;
+               
+            request(app)
+                .post('/cards')
+                .set('Accept', 'application/json')
+                .set('Authorization', token)
+                .send({question, answer, type, difficulty})
+                .expect(200)
+                .end((err) => {
+                    if (err) return done(err);
+                    done();
+                });
+
+        });
+    });
+
+    describe('PUT /cards/:id', function () {
+        it('updates card by id', function (done) {
+            let question = 'New question2'
+
+            request(app)
+                .put('/cards/1')
+                .set('Accept', 'application/json')
+                .set('Authorization', token)
+                .send({question})
+                .expect(200)
                 .end((err) => {
                     if (err) return done(err);
                     done();
@@ -62,10 +108,10 @@ describe('Cardit API users tests', function () {
         });
     });
 
-    describe('GET /users/:id', function () {
-        it('respond with json user found', function (done) {
+    describe('DELETE /cards/:id', function () {
+        it('deletes card by id', function (done) {
             request(app)
-                .get('/users/1')
+                .delete('/cards/1')
                 .set('Accept', 'application/json')
                 .set('Authorization', token)
                 .expect(200)
@@ -76,69 +122,5 @@ describe('Cardit API users tests', function () {
         });
     });
 
-    describe('POST /users', function () {
-        it('create new user', function (done) {
-            let firstName = 'Elek';
-            let lastName = 'Teszt';
-            let email = 'teszt@elek.hu';
-            let password = '1234';
-            let role = 'student';
-            let GroupId = 1;
-      
 
-            request(app)
-                .post('/users')
-                .set('Accept', 'application/json')
-                .set('Authorization', token)
-                .send({firstName, lastName, email, password, role, GroupId})
-                .expect(200)
-                /*.expect((res) => {
-                    expect(res.body.firstname).toBe(firstName);
-                    expect(res.body.lastname).toBe(lastName);
-                    expect(res.body.email).toBe(email);
-                    expect(res.body.password).toBe(password);
-                    expect(res.body.role).toBe(role);
-                    expect(res.body.GroupId).toBe(GroupId);
-                  })*/
-                .end((err) => {
-                    if (err) return done(err);
-                    done();
-                });
-
-        });
-    });
-
-    describe('PUT /users/:id', function () {
-        it('updates user by id', function (done) {
-            let firstName = 'Ella'
-
-            request(app)
-                .put('/users/1')
-                .set('Accept', 'application/json')
-                .set('Authorization', token)
-                .send({firstName})
-                .expect(200)
-                .end((err) => {
-                    if (err) return done(err);
-                    done();
-                });
-        });
-    });
-
-    describe('DELETE /users/:id', function () {
-        it('deletes user by id', function (done) {
-            request(app)
-                .delete('/users/1')
-                .set('Accept', 'application/json')
-                .set('Authorization', token)
-                .expect(200)
-                .end((err) => {
-                    if (err) return done(err);
-                    done();
-                });
-        });
-    });
-
-    
-
-});
+})
