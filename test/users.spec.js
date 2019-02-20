@@ -43,6 +43,7 @@ describe('Cardit API users tests', function () {
             request(app)
                 .get('/users')
                 .set('Accept', 'application/json')
+                .set('Authorization', token)
                 .expect('Content-Type', /json/)
                 .expect(200, done);
         });
