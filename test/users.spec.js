@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 
 describe('Cardit API users tests', function () {
-    this.timeout(10000);
+    this.timeout(20000);
     before(function (done) {
         models.sequelize.sync({ force: true }).then(() => {
             console.log('Database rebuilt')
@@ -77,6 +77,19 @@ describe('Cardit API users tests', function () {
         });
     });
 
+    describe('GET /users/:id', function () {
+        it('respond with forbidden', function (done) {
+            request(app)
+                .get('/users/1')
+                .set('Accept', 'application/json')
+                .expect(403)
+                .end((err) => {
+                    if (err) return done(err);
+                    done();
+                });
+        });
+    });
+
     describe('POST /users', function () {
         it('create new user', function (done) {
             let firstName = 'Elek';
@@ -93,14 +106,52 @@ describe('Cardit API users tests', function () {
                 .set('Authorization', token)
                 .send({firstName, lastName, email, password, role, GroupId})
                 .expect(200)
-                /*.expect((res) => {
-                    expect(res.body.firstname).toBe(firstName);
-                    expect(res.body.lastname).toBe(lastName);
-                    expect(res.body.email).toBe(email);
-                    expect(res.body.password).toBe(password);
-                    expect(res.body.role).toBe(role);
-                    expect(res.body.GroupId).toBe(GroupId);
-                  })*/
+                .end((err) => {
+                    if (err) return done(err);
+                    done();
+                });
+
+        });
+    });
+
+    describe('POST /users', function () {
+        it('should return 500 if password is not given', function (done) {
+            let firstName = 'Elek';
+            let lastName = 'Teszt';
+            let email = 'teszt@elek.hu';
+            let role = 'student';
+            let GroupId = 1;
+      
+
+            request(app)
+                .post('/users')
+                .set('Accept', 'application/json')
+                .set('Authorization', token)
+                .send({firstName, lastName, email, role, GroupId})
+                .expect(500)
+                .end((err) => {
+                    if (err) return done(err);
+                    done();
+                });
+
+        });
+    });
+
+    describe('POST /users', function () {
+        it('should return 400 if email is not given', function (done) {
+            let firstName = 'Elek';
+            let lastName = 'Teszt';
+            let password = 'tesztelek'
+            let role = 'student';
+            let GroupId = 1;
+      
+
+            request(app)
+                .post('/users')
+                .set('Accept', 'application/json')
+                .set('Authorization', token)
+                .send({firstName, lastName, password, role, GroupId})
+                .expect(400)
                 .end((err) => {
                     if (err) return done(err);
                     done();
@@ -138,8 +189,5 @@ describe('Cardit API users tests', function () {
                     done();
                 });
         });
-    });
-
-    
-
+    });  
 });

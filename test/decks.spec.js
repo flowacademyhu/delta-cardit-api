@@ -55,8 +55,7 @@ describe('Cardit API decks tests', function () {
                 .expect('Content-Type', /json/)
                 .expect(200, done);
         });
-    });
-    
+    });    
 
     describe('GET /decks/:id', function () {
         it('respond with json deck not found', function (done) {
@@ -97,6 +96,25 @@ describe('Cardit API decks tests', function () {
                 .set('Authorization', token)
                 .send({subject})
                 .expect(200)
+                .end((err) => {
+                    if (err) return done(err);
+                    done();
+                });
+
+        });
+    });
+
+    describe('POST /decks', function () {
+        it('return 400 if subject already exists', function (done) {
+            let subject = 'Subject 2'
+      
+
+            request(app)
+                .post('/decks')
+                .set('Accept', 'application/json')
+                .set('Authorization', token)
+                .send({subject})
+                .expect(400)
                 .end((err) => {
                     if (err) return done(err);
                     done();

@@ -70,6 +70,17 @@ describe('Cardit API cards tests', function () {
         });
     });
 
+    describe('GET /cards/:id', function () {
+        it('return with 400 card not found', function (done) {
+            request(app)
+                .get('/cards/11')
+                .set('Accept', 'application/json')
+                .set('Authorization', token)
+                .expect('Content-Type', /json/)
+                .expect(400, done);
+        });
+    });
+
     describe('POST /cards', function () {
         it('create new card', function (done) {
             let question = 'Question2';
@@ -108,6 +119,23 @@ describe('Cardit API cards tests', function () {
         });
     });
 
+    describe('PUT /cards/:id', function () {
+        it('return with 400 if card not found', function (done) {
+            let question = 'New question2'
+
+            request(app)
+                .put('/cards/11')
+                .set('Accept', 'application/json')
+                .set('Authorization', token)
+                .send({question})
+                .expect(400)
+                .end((err) => {
+                    if (err) return done(err);
+                    done();
+                });
+        });
+    });
+
     describe('DELETE /cards/:id', function () {
         it('deletes card by id', function (done) {
             request(app)
@@ -121,6 +149,4 @@ describe('Cardit API cards tests', function () {
                 });
         });
     });
-
-
-})
+});
