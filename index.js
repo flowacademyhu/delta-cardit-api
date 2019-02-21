@@ -15,7 +15,7 @@ const groupUsers = require('./controllers/groupUsers');
 const resultUsers = require('./controllers/resultUsers');
 const createMiddleware = require('swagger-express-middleware');
 const swaggerUi = require('swagger-ui-express');
-const swaggerFilePath = __dirname + '/config/swagger';
+const swaggerFilePath = __dirname + '/config/swagger.json';
 const auth = require('./controllers/middleware/auth');
 
 app.use(bodyParser.json());
