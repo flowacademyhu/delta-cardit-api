@@ -32,7 +32,7 @@ decks.post('/', (req, res) => {
   }).then(deck => {
     res.status(200).json(deck);
   }).catch(error => {
-    res.status(400).json({ error: error, message: error.message });
+    res.status(500).json({ error: error, message: error.message });
   });
 });
 

@@ -105,7 +105,7 @@ describe('Cardit API decks tests', function () {
     });
 
     describe('POST /decks', function () {
-        it('return 400 if subject already exists', function (done) {
+        it('return 500 if subject already exists', function (done) {
             let subject = 'Subject 2'
       
 
@@ -114,7 +114,7 @@ describe('Cardit API decks tests', function () {
                 .set('Accept', 'application/json')
                 .set('Authorization', token)
                 .send({subject})
-                .expect(400)
+                .expect(500)
                 .end((err) => {
                     if (err) return done(err);
                     done();
