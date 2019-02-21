@@ -109,7 +109,7 @@ users.delete('/:id', (req, res) => {
 users.put('/:id/me', (req, res) => {
   models.User.findById(req.params.id)
     .then(user => {
-      if (user.id === req.user.id) {
+      if (user) {
         bcrypt.hash(req.body.password, 10, (err, hash) => {
           if (err) {
             return res.status(500).json({
