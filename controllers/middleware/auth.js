@@ -4,7 +4,7 @@ const config = require('../../config/config');
 const endpoints = {
     'POST /users/login': ['anonymus'],
     'POST /users': ['admin'],
-    'GET /users': ['admin', 'anonymus'],
+    'GET /users': ['admin'],
     'GET /decks': ['admin', 'contributor', 'student'],
     'GET /cards': ['admin', 'contributor', 'student'],
     'GET /groups': ['admin', 'contributor'],
@@ -30,7 +30,7 @@ const endpoints = {
     'DELETE /decks/{id}': ['admin', 'contributor'],
     'GET /decks/{deckId}/cards': ['admin', 'contributor', 'student'],
     'GET /decks/{deckId}/groups': ['admin', 'contributor'],
-    'GET /groups/{groupId}/decks': ['admin', 'contributor'],
+    'GET /groups/{groupId}/decks': ['admin', 'contributor', 'student'],
     'POST /groups/{groupId}/decks': ['admin', 'contributor'],
     'DELETE /groups/{groupId}/decks/{deckId}': ['admin', 'contributor'],
     'GET /cards/{cardId}/decks': ['admin', 'contributor'],
