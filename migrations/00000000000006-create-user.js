@@ -15,7 +15,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
       },
       passwordHash: {
         type: Sequelize.STRING
@@ -26,7 +27,7 @@ module.exports = {
       lastLogin: {
         type: Sequelize.DATE
       },
-      groupId: {
+      GroupId: {
         type: Sequelize.INTEGER,
         references: { 
           model: "Groups",

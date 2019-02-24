@@ -1,11 +1,17 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Group = sequelize.define('Group', {
-    name: DataTypes.STRING
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      notEmpty: true,
+      unique: true,
+      validate: { "len": [3,500] }
+    },
   }, {});
-  Group.associate = function(models) {
-    Group.hasMany(models.User);
-    Group.hasMany(models.Group_Deck);
+  Group.associate = function (models) {
+    Group.hasMany(models.User, { foreignKey: 'GroupId' });
+    Group.hasMany(models.Group_Deck, { foreignKey: 'GroupId' });
   };
   return Group;
 };
