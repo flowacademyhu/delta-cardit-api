@@ -3,64 +3,72 @@ const cards = express();
 const models = require('../models');
 
 // index
-cards.get('/', (req, res) => {
-  models.Card.findAll({ order: [['id', 'ASC']] }).then(cards => {
+cards.get('/', async (req, res) => {
+  try {
+    const cards = await models.Card.findAll({ order: [['id', 'ASC']] });
     res.json(cards);
-  });
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
 });
 
 // show
-cards.get('/:id', (req, res) => {
-  models.Card.findById(req.params.id)
-    .then(card => {
-      if (!card) {
-        throw new Error('Card with given id does not exist');
-      }
-      return res.json(card);
-    }).catch(err => {
-      return res.status(400).json({ message: err.message });
-    });
+cards.get('/:id', async (req, res) => {
+  try {
+    const card = await models.Card.findById(req.params.id);
+    if (!card) {
+      throw new Error('Card with given id does not exist');
+    }
+    return res.json(card);
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
 });
+
+const createCard = body => {
+  return models.Card.create({
+    question: body.question,
+    answer: body.answer,
+    difficulty: body.difficulty,
+    type: body.type
+  });
+};
+
+const createDeckCard = async (body, card) => {
+  const deckCard = await models.Card_Deck.create({
+    CardId: card.id,
+    DeckId: body.deckId
+  });
+  card.dataValues.deckCard = deckCard;
+};
 
 // create
-cards.post('/', (req, res) => {
-  models.Card.create({
-    question: req.body.question,
-    answer: req.body.answer,
-    difficulty: req.body.difficulty,
-    type: req.body.type
-  }).then(card => {
+cards.post('/', async (req, res) => {
+  try {
+    const card = await createCard(req.body);
     if (req.body.deckId) {
-      models.Card_Deck.create({
-        CardId: card.id,
-        DeckId: req.body.deckId
-      }).then(deckCard => {
-        card.dataValues.deckCard = deckCard;
-        res.status(200).json(card);
-      }).catch(error => {
-        res.status(500).json({ error: error, message: error.message });
-      })
-    } else {
-      res.status(200).json(card);
+      createDeckCard(req.body, card);
     }
-  }).catch(error => {
+    res.status(200).json(card);
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ error: error, message: error.message });
-  });
+  }
 });
 
-
 // update
-cards.put('/:id', (req, res) => {
-  models.Card.update(req.body, { where: { id: req.params.id } })
-    .then(card => {
-      if (card == 0) {
-        throw new Error('Card with given id does not exist');
-      }
-      return res.json(card);
-    }).catch(err => {
-      return res.status(400)
-        .json({ message: err.message });
-    });
+cards.put('/:id', async (req, res) => {
+  try {
+    const card = await models.Card.update(req.body, { where: { id: req.params.id } });
+    if (card == 0) {
+      throw new Error('Card with given id does not exist');
+    }
+    res.json(card);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ message: err.message });
+  }
 });
 
 // delete

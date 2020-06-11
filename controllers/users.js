@@ -17,30 +17,27 @@ users.get('/', (req, res) => {
     });
 });
 
-// CREATE
-users.post('/', (req, res) => {
-  bcrypt.hash(req.body.password, 10, (err, hash) => {
-    if (err) {
-      return res.status(500).json({
-        error: err
-      });
-    } else {
-      models.User.create({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        passwordHash: hash,
-        role: req.body.role,
-        GroupId: req.body.GroupId
-      }).then(user => {
-        sendMail(req.body.password, req.body.email);
-        return res.json(user);
-      }).catch(err => {
-        return res.status(400)
-          .json({ message: 'Failed to create user' });
-      });
-    }
+const createUser = (body, passwordHash) => {
+  return models.User.create({
+    firstName: body.firstName,
+    lastName: body.lastName,
+    email: body.email,
+    passwordHash: passwordHash,
+    role: body.role,
+    GroupId: body.GroupId
   });
+};
+// CREATE
+users.post('/', async (req, res) => {
+  try {
+    const passwordHash = bcrypt.hashSync(req.body.password, 10);
+    const user = await createUser(req.body, passwordHash);
+    sendMail(req.body.password, req.body.email);
+    return res.json(user);
+  } catch (err) {
+    console.error(err);
+    return res.status(400).json({ message: 'Failed to create user' });
+  }
 });
 
 // SHOW
@@ -90,7 +87,6 @@ users.put('/:id', (req, res) => {
   }
 });
 
-
 // DELETE
 users.delete('/:id', (req, res) => {
   models.User.destroy({
@@ -106,31 +102,15 @@ users.delete('/:id', (req, res) => {
 });
 
 // UPDATE OWN PASSWORD
-users.put('/:id/me', (req, res) => {
-  models.User.findById(req.params.id)
-    .then(user => {
-      if (user) {
-        bcrypt.hash(req.body.password, 10, (err, hash) => {
-          if (err) {
-            return res.status(500).json({
-              error: err
-            });
-          } else {
-            req.body.passwordHash = hash;
-            models.User.update(
-              { passwordHash: req.body.passwordHash, updatedAt: new Date() },
-              { where: { id: req.params.id } })
-              .then(user => {
-                res.json(user);
-              }).catch(err => {
-                return res.status(400).json({ message: 'Failed to update password' });
-              });
-          }
-        });
-      } else {
-        res.status(401).json({ message: 'Unauthorized' });
-      }
-    });
+users.put('/me', async (req, res) => {
+  try {
+    const passwordHash = bcrypt.hashSync(req.body.password, 10);
+    const user = await req.user.update({ passwordHash });
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    return res.status(400).json({ message: 'Failed to update password' });
+  }
 });
 
 // LOGIN
@@ -192,17 +172,17 @@ users.put('/login/password', (req, res) => {
           return res.json(user);
         }).catch(err => {
           return res.status(400).json({ message: err.message });
-        });;
+        });
     }
   });
 });
 
 const sendMail = (password, email) => {
-  var api_key = mailgunConfig.api_key;
-  var domain = mailgunConfig.domain;
-  var mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain });
+  const apiKey = mailgunConfig.api_key;
+  const domain = mailgunConfig.domain;
+  const mailgun = require('mailgun-js')({ apiKey, domain: domain });
 
-  let data = {
+  const data = {
     from: 'Flow Academy CardIT <flowcardit@gmail.com>',
     to: `${email}`,
     subject: 'Registration',

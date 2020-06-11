@@ -1,4 +1,3 @@
-'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Group = sequelize.define('Group', {
     name: {
@@ -6,8 +5,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       notEmpty: true,
       unique: true,
-      validate: { "len": [3,500] }
-    },
+      validate: { len: [3, 500] }
+    }
   }, {});
   Group.associate = function (models) {
     Group.hasMany(models.User, { foreignKey: 'GroupId' });

@@ -1,4 +1,3 @@
-'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Card_Deck = sequelize.define('Card_Deck', {
     CardId: DataTypes.INTEGER,

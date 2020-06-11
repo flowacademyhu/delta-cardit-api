@@ -1,38 +1,33 @@
-'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Card = sequelize.define('Card', {
-    question: 
-    {
+    question: {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
-      validate: { 'len': [3, 500] }
+      validate: { len: [3, 500] }
     },
-    answer: 
-    {
+    answer: {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
-      validate: { 'len': [3, 500] }
+      validate: { len: [3, 500] }
     },
-    difficulty: 
-    {
+    difficulty: {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
       validate: { min: 1, max: 3 }
     },
-    type: 
-     {
+    type: {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
-      validate: { 'len': [3, 500] }
+      validate: { len: [3, 500] }
     }
   }, {});
-Card.associate = function (models) {
-  Card.hasMany(models.Result, { foreignKey: 'CardId' });
-  Card.hasMany(models.Card_Deck, { foreignKey: 'CardId' });
-};
-return Card;
+  Card.associate = function (models) {
+    Card.hasMany(models.Result, { foreignKey: 'CardId' });
+    Card.hasMany(models.Card_Deck, { foreignKey: 'CardId' });
+  };
+  return Card;
 };

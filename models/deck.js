@@ -1,4 +1,3 @@
-'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Deck = sequelize.define('Deck', {
     subject: {
@@ -6,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       notEmpty: true,
       unique: true,
-      validate: { "len": [3,500] },
+      validate: { "len": [3, 500] },
     },
   }, {});
   Deck.associate = function (models) {

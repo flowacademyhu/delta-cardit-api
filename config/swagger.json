@@ -11,6 +11,9 @@
     "paths": {
         "/users": {
             "get": {
+                "x-roles": [
+                    "admin"
+                ],
                 "description": "Index of users",
                 "responses": {
                     "200": {
@@ -532,7 +535,7 @@
                         "schema": {
                             "properties": {
                                 "deckId": {
-                                    "type": "integer"                                    
+                                    "type": "integer"
                                 }
                             }
                         }

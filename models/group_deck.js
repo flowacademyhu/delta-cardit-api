@@ -1,4 +1,3 @@
-'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Group_Deck = sequelize.define('Group_Deck', {
     GroupId: DataTypes.INTEGER,

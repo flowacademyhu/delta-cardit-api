@@ -1,4 +1,3 @@
-'use strict';
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     firstName: {
@@ -14,8 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       notEmpty: true,
       validate: {
-        "len": [3, 500]
-      },
+        len: [3, 500]
+      }
     },
     email: {
       type: DataTypes.STRING,
@@ -24,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: null,
       unique: true,
       validate: {
-        "len": [3, 500],
+        len: [3, 500],
         isEmail: true
       }
     },
@@ -33,13 +32,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       notEmpty: true,
       defaultValue: null,
-      validate: { "len": [3, 500] }
+      validate: { len: [3, 500] }
     },
     role: {
       type: DataTypes.ENUM('admin', 'contributor', 'student'),
       allowNull: false,
       notEmpty: true,
-      validate: { "len": [3, 500] },
+      validate: { len: [3, 500] }
 
     },
     lastLogin: {
